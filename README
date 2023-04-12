@@ -1,0 +1,15 @@
+jetbrain IDE/androidStudio.
+This is for someone who likes to use gitBash, but not IDE's git tools.
+
+    How to use it?
+
+Right click on project name, as your project menu opened, the "git bash here" shows on the bottom.
+It'll go and open your project directory into git bash.
+
+And your git-bash.exe has to be in on of list:
+    "C:\\Program Files\\Git\\git-bash.exe",
+    "C:\\Program Files (x86)\\Git\\git-bash.exe",
+    "D:\\Program Files\\Git\\git-bash.exe",
+    "D:\\Program Files (x86)\\Git\\git-bash.exe".
+    
+Enjoy it!
