@@ -1,11 +1,11 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>com.allan.OpenHerePlugin</id>
+    <id>com.allan.OpenHere</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>OpenHerePlugin</name>
+    <name>GitBashOpenHere</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="jzl.hll@163.com" url="https://github.com/jzlhll">Allan</vendor>
@@ -14,17 +14,22 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    This is for someone who likes to use gitBash, but not IDE's git tools. <br>
-    How to use it?
-    Right click on project name, as your project menu opened, the "git bash here" shows on the bottom.
-    It'll go and open your project directory into git bash.<br>
+    This is for someone who prefers gitBash, but not IDE's git tools. <br>
+    How to use it? (currently only for windows) <br><br>
 
-    And your git-bash.exe has to be in on of list:
-    "C:\\Program Files\\Git\\git-bash.exe",
-    "C:\\Program Files (x86)\\Git\\git-bash.exe",
-    "D:\\Program Files\\Git\\git-bash.exe",
-    "D:\\Program Files (x86)\\Git\\git-bash.exe". <br>
+    1. Right click on project name or directory name; as your project menu opened, 'git bash here' and 'git status here' shows on the bottom. <br>
+    2. Right click in editor, as your menu shown, 'git diff here' shows on the bottom. <br>
 
+    And then, it opens in git bash and do extra action once.
+    It helps me to save time and combine some steps: 1. Open In, 2. Explorer 3. waiting 4. right click open in bash. <br>
+
+    if this plugin cannot find your git-bash.exe, please contact with me.<br>
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_4962e9d8-4a08-44e5-b806-6fb9037c24e3" alt="1">
+    <br>
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_a029e018-c693-48e3-a1e5-cc352e9405cf" alt="2">
+    <br>
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_8042ea48-2ba7-4e79-b182-2e6ca4ff8f2a" alt="3">
+    <br>
     Enjoy it!<br>
     ]]></description>
 
@@ -41,6 +46,16 @@
         <action id="com.allan.gitbash" class="com.allan.openhereplugin.GitBashAction" text="Git Bash Here"
                 description="All actions about git bash from your pc.">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="com.allan.git_project_status" class="com.allan.openhereplugin.GitBashStatusAction" text="Git Status Here"
+                description="All actions about git bash from your pc.">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="com.allan.gitbash_edit_diff" class="com.allan.openhereplugin.GitBashDiffAction" text="Git Diff Here"
+                description="Git diff this file in git bash">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Git.Stage.Index.File.Menu"/>
         </action>
     </actions>
 </idea-plugin>
