@@ -48,14 +48,19 @@
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
         </action>
 
-        <action id="com.allan.git_project_status" class="com.allan.openhereplugin.GitBashStatusAction" text="Git Status Here"
+        <action id="com.allan.git_project_status" class="com.allan.openhereplugin.GitBashExtraAction" text="Git Status Here"
+                description="All actions about git bash from your pc.">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="com.allan.git_project_diff" class="com.allan.openhereplugin.GitBashExtraAction" text="Git Diff Here"
                 description="All actions about git bash from your pc.">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
         </action>
 
         <action id="com.allan.gitbash_edit_diff" class="com.allan.openhereplugin.GitBashDiffAction" text="Git Diff Here"
                 description="Git diff this file in git bash">
-            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Git.Stage.Index.File.Menu"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="JsonPathEvaluateAction"/>
         </action>
     </actions>
 </idea-plugin>

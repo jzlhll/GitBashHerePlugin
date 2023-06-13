@@ -1,5 +1,6 @@
 package com.allan.openhereplugin;
 
+import com.allan.openhereplugin.beans.PathsBean;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.NotNull;
@@ -13,4 +14,6 @@ public class GitBashAction extends AnAction {
             Common.runGitBash(bean.deepGitDirectoryPath);
         });
     }
+
+
 }

@@ -1,5 +1,8 @@
 package com.allan.openhereplugin;
 
+import com.allan.openhereplugin.beans.Bean;
+import com.allan.openhereplugin.beans.DiffsBean;
+import com.allan.openhereplugin.beans.PathsBean;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformCoreDataKeys;
 import com.intellij.openapi.ui.Messages;
@@ -190,7 +193,7 @@ public final class Common {
     /**
      * 从project点击出来的计算出，最近的git目录
      */
-    static Object pathToDirectoryForProject(AnActionEvent event, boolean fileMode) {
+    static Bean pathToDirectoryForProject(AnActionEvent event, boolean fileMode) {
         if (fileMode) {
             var thisFile = event.getDataContext().getData(PlatformCoreDataKeys.CONTEXT_COMPONENT);
             if (thisFile != null) {

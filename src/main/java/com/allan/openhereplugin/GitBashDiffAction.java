@@ -1,5 +1,6 @@
 package com.allan.openhereplugin;
 
+import com.allan.openhereplugin.beans.DiffsBean;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 

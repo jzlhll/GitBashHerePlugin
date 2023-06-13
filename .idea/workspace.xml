@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9969795-a48f-400e-9245-40d213469437" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/DiffsBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashStatusAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/PathsBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashDiffAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashDiffAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/IFindGitBashPathCallback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/IFindGitBashPathCallback.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,23 +34,6 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="OpenHerePlugin" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="OpenHerePlugin" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="OpenHerePlugin" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="intellij" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="OpenHerePlugin" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="other" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -95,17 +70,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/code/mycode/OpenHerePlugin&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;工件&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/code/mycode/OpenHerePlugin",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.allan.openhereplugin" />
@@ -165,12 +142,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java</url>
-          <line>119</line>
+          <line>122</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java</url>
-          <line>158</line>
+          <line>161</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
