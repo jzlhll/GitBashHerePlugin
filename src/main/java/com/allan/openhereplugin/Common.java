@@ -1,13 +1,12 @@
 package com.allan.openhereplugin;
 
-import com.allan.openhereplugin.beans.Bean;
-import com.allan.openhereplugin.beans.DiffsBean;
-import com.allan.openhereplugin.beans.PathsBean;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformCoreDataKeys;
 import com.intellij.openapi.ui.Messages;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -119,11 +118,11 @@ public final class Common {
         runCommand(cmd);
     }
 
-    public static void runGitDiff(@Nonnull String gitPath, String relativeFile) {
+    public static void runGitDiff(String gitPath, String relativeFile) {
         runGitBashCmds(gitPath, new String[]{"git diff " + relativeFile});
     }
 
-    public static void runGitStatus(@Nonnull String gitPath, @Nonnull String relativeDir) {
+    public static void runGitStatus(String gitPath, String relativeDir) {
         String s;
         if (relativeDir.isEmpty()) {
             s = "git status";
@@ -133,7 +132,10 @@ public final class Common {
         runGitBashCmds(gitPath, new String[]{s});
     }
 
-    private static void runGitBashCmds(@Nonnull String gitPath, String[] extraCmds) {
+    private static void runGitBashCmds(String gitPath, String[] extraCmds) {
+        if (gitPath == null || gitPath.length() == 0) {
+            return;
+        }
         var disk = gitPath.substring(0, 2);
 
         StringBuilder gitCmds = new StringBuilder();
@@ -150,82 +152,36 @@ public final class Common {
         runCommand(cmd);
     }
 
-    private static PathsBean getPathsBean(String basePath, String relativeSourceDirectory) {
-        PathsBean bean = new PathsBean();
-
-        var noEndRelativeSourceDirectory = relativeSourceDirectory;
-        if (relativeSourceDirectory.endsWith("/")) {
-            noEndRelativeSourceDirectory = noEndRelativeSourceDirectory.substring(0, relativeSourceDirectory.length() - 1);
+    @NotNull
+    static PathInfo findClosestGitRoot(@Nonnull AnActionEvent event) {
+        var thisFile = event.getDataContext().getData("virtualFile");
+        var thisFileStr = thisFile.toString().replace("file://", "");
+        var file = new File(thisFileStr);
+        String dir = "";
+        if (file.exists() && file.isFile()) {
+            dir = thisFileStr.substring(0, thisFileStr.length() - file.getName().length());
+        } else if (file.exists() && file.isDirectory()) {
+            dir = thisFileStr + "/";
+        }
+        if (dir.length() == 0) {
+            return PathInfo.EMPTY;
         }
 
-        var cutBackDir = noEndRelativeSourceDirectory;
-        while (!new File(basePath + cutBackDir + "/.git/config").exists()) {
-            var in = cutBackDir.lastIndexOf("/");
-            if (in > 0) {
-                cutBackDir = cutBackDir.substring(0, cutBackDir.lastIndexOf("/"));
-            } else {
-                cutBackDir = "";
-                break;
-            }
+        File f = new File(dir + "/.git/config");
+        boolean isCut = false;
+        while(!f.exists()) {
+            isCut = true;
+            dir = new File(dir).getParent();
+            f = new File(dir + "/.git/config");
         }
-        bean.deepGitDirectoryPath = basePath + cutBackDir;
-        bean.relativeToDeepGitPath = (basePath + relativeSourceDirectory).replace(bean.deepGitDirectoryPath, "");
-        if (bean.relativeToDeepGitPath.startsWith("/")) {
-            bean.relativeToDeepGitPath = bean.relativeToDeepGitPath.substring(1);
-        }
-        return bean;
+
+        PathInfo p = new PathInfo();
+        p.path = thisFileStr;
+        p.relativePath = isCut ? thisFileStr.substring(dir.length() + 1) : thisFileStr;
+        p.gitPath = dir;
+        p.isFileOrDirectory = file.isFile();
+
+        return p;
     }
 
-    private static DiffsBean getPathsBeanFile(String basePath, String relativeSourceFile) {
-        DiffsBean bean = new DiffsBean();
-        var in = relativeSourceFile.lastIndexOf("/");
-        var relativeToProjectDir = in > 0 ? relativeSourceFile.substring(0, relativeSourceFile.lastIndexOf("/")) : relativeSourceFile;
-
-        var pathsBean = getPathsBean(basePath, relativeToProjectDir);
-        bean.deepGitDirectoryPath = pathsBean.deepGitDirectoryPath;
-        bean.relativeToDeepGitPathFile = (basePath + relativeSourceFile).replace(bean.deepGitDirectoryPath, "");
-        if (bean.relativeToDeepGitPathFile.startsWith("/")) {
-            bean.relativeToDeepGitPathFile = bean.relativeToDeepGitPathFile.substring(1);
-        }
-        return bean;
-    }
-
-    /**
-     * 从project点击出来的计算出，最近的git目录
-     */
-    static Bean pathToDirectoryForProject(AnActionEvent event, boolean fileMode) {
-        if (fileMode) {
-            var thisFile = event.getDataContext().getData(PlatformCoreDataKeys.CONTEXT_COMPONENT);
-            if (thisFile != null) {
-                String thisFileStr = thisFile.toString();
-                var basePath = event.getProject().getBasePath();
-                if (!basePath.endsWith("/")) {
-                    basePath = basePath + "/";
-                }
-                var relativeSrc = thisFileStr.substring(thisFileStr.indexOf(basePath) + basePath.length());
-                return getPathsBeanFile(basePath, relativeSrc);
-            }
-        } else {
-            var thisFile = event.getDataContext().getData("virtualFile");
-            var basePath = event.getProject().getBasePath();
-
-            String thisFileStr = thisFile.toString();
-
-            var s = thisFileStr.replace("file://", "");
-            var file = new File(s);
-            if (file.exists() && file.isFile()) {
-                thisFileStr = thisFileStr.substring(0, thisFileStr.length() - file.getName().length());
-            } else if (file.exists() && file.isDirectory()) {
-                thisFileStr = thisFileStr + "/";
-            }
-            if (!basePath.endsWith("/")) {
-                basePath = basePath + "/";
-            }
-
-            var relativeSrc = thisFileStr.substring(thisFileStr.indexOf(basePath) + basePath.length());
-            return getPathsBean(basePath, relativeSrc);
-        }
-
-        return null;
-    }
 }

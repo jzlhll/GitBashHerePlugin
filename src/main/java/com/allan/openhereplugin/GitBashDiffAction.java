@@ -1,6 +1,5 @@
 package com.allan.openhereplugin;
 
-import com.allan.openhereplugin.beans.DiffsBean;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 
@@ -11,8 +10,8 @@ public class GitBashDiffAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent event) {
         Common.assertPath(event.getProject(), project -> {
-            var bean = (DiffsBean) Common.pathToDirectoryForProject(event, true);
-            runGitDiff(bean.deepGitDirectoryPath, bean.relativeToDeepGitPathFile);
+            var bean = Common.findClosestGitRoot(event);
+            runGitDiff(bean.gitPath, bean.relativePath);
         });
     }
 }
