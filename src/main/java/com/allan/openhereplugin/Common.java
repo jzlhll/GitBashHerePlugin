@@ -4,9 +4,9 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformCoreDataKeys;
 import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -152,8 +152,8 @@ public final class Common {
         runCommand(cmd);
     }
 
-    @NotNull
-    static PathInfo findClosestGitRoot(@Nonnull AnActionEvent event) {
+    @Nullable
+    static NoGitPathInfo findClosestGitRoot(@Nonnull AnActionEvent event) {
         var thisFile = event.getDataContext().getData("virtualFile");
         var thisFileStr = thisFile.toString().replace("file://", "");
         var file = new File(thisFileStr);
@@ -164,7 +164,7 @@ public final class Common {
             dir = thisFileStr + "/";
         }
         if (dir.length() == 0) {
-            return PathInfo.EMPTY;
+            return null;
         }
 
         File f = new File(dir + "/.git/config");
@@ -172,6 +172,9 @@ public final class Common {
         while(!f.exists()) {
             isCut = true;
             dir = new File(dir).getParent();
+            if (dir == null || dir.isEmpty() || dir.isBlank()) { //blank return no git pathInfo
+                return new NoGitPathInfo(thisFileStr);
+            }
             f = new File(dir + "/.git/config");
         }
 

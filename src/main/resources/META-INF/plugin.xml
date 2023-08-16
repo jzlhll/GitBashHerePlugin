@@ -19,18 +19,17 @@
     1. Right-click on the project name or directory name.
     When the project menu opens, 'Git Here:' commands will be shown at the bottom. <br>
     2. Right-click in the editor. When the menu appears, 'Git Here:' commands will be shown at the bottom.<br>
-    Afterwards, it will open in Git Bash and perform an additional action once.
+    Afterward, it will open in Git Bash and perform an additional action once.
     This helps me save time and combine multiple steps: 1. Open In, 2. Explorer, 3. Waiting, 4. Right-click to open in Bash.<br>
     If this plugin is unable to find your git-bash.exe, please contact me.
+    <br>
+    New Feature function "add copy name".
+    <br>
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_a029e018-c693-48e3-a1e5-cc352e9405cf" alt="1">
 
-    added copyName feature.
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_46487e25-ed1b-43ca-9633-55002ad03787" alt="2">
 
-    <img src="https://plugins.jetbrains.com/files/21517/screenshot_4962e9d8-4a08-44e5-b806-6fb9037c24e3" alt="1">
-    <br>
-    <img src="https://plugins.jetbrains.com/files/21517/screenshot_a029e018-c693-48e3-a1e5-cc352e9405cf" alt="2">
-    <br>
-    <img src="https://plugins.jetbrains.com/files/21517/screenshot_8042ea48-2ba7-4e79-b182-2e6ca4ff8f2a" alt="3">
-    <br>
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_ea7b94cd-4e61-4094-b7ef-a3f715f79aa0" alt="3">
     Enjoy it!<br>
     ]]></description>
 
@@ -40,23 +39,25 @@
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
-    <extensions defaultExtensionNs="com.intellij" />
+    <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="com.allan.githere_notify" displayType="BALLOON"/>
+    </extensions>
 
     <actions>
         <group id="com.allan.githere_list_project" text="Git Here:" popup="true">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
-            <action class="com.allan.openhereplugin.GitBashAction" text = "Git Bash"/>
-            <action class="com.allan.openhereplugin.GitBashStatusAction" text = "Git Status"/>
-            <action class="com.allan.openhereplugin.GitBashDiffAction" text = "Git Diff"/>
-            <action class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
+            <action id="allan.githere_list_project_action" class="com.allan.openhereplugin.GitBashAction" text = "Git Bash"/>
+            <action id="allan.githere_list_project_status" class="com.allan.openhereplugin.GitBashStatusAction" text = "Git Status"/>
+            <action id="allan.githere_list_project_diff" class="com.allan.openhereplugin.GitBashDiffAction" text = "Git Diff"/>
+            <action id="allan.githere_list_project_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
         </group>
 
         <group id="com.allan.githere_list_editor" text="Git Here:" popup="true">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="JsonPathEvaluateAction"/>
-            <action class="com.allan.openhereplugin.GitBashAction" text = "Git Bash"/>
-            <action class="com.allan.openhereplugin.GitBashStatusAction" text = "Git Status"/>
-            <action class="com.allan.openhereplugin.GitBashDiffAction" text = "Git Diff"/>
-            <action class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
+            <action id="allan.githere_list_editor_action" class="com.allan.openhereplugin.GitBashAction" text = "Git Bash"/>
+            <action id="allan.githere_list_editor_status" class="com.allan.openhereplugin.GitBashStatusAction" text = "Git Status"/>
+            <action id="allan.githere_list_editor_diff" class="com.allan.openhereplugin.GitBashDiffAction" text = "Git Diff"/>
+            <action id="allan.githere_list_editor_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
         </group>
     </actions>
 </idea-plugin>

@@ -11,7 +11,14 @@ public class GitBashDiffAction extends AnAction {
     public void actionPerformed(AnActionEvent event) {
         Common.assertPath(event.getProject(), project -> {
             var bean = Common.findClosestGitRoot(event);
-            runGitDiff(bean.gitPath, bean.relativePath);
+            if (bean != null) {
+                if (bean instanceof PathInfo) {
+                    var info = (PathInfo) bean;
+                    runGitDiff(info.gitPath, info.relativePath);
+                } else {
+                    runGitBash(bean.path);
+                }
+            }
         });
     }
 }

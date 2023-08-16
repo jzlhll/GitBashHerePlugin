@@ -5,7 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9969795-a48f-400e-9245-40d213469437" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/NoGitPathInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/NotificationUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashDiffAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashDiffAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashStatusAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashStatusAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/PathInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/PathInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +43,17 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="OpenHerePlugin" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="OpenHerePlugin" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="OpenHerePlugin" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="documentation" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -88,7 +109,7 @@
       <recent name="com.allan.openhereplugin" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.OpenHerePlugin [build]">
+  <component name="RunManager" selected="Gradle.OpenHerePlugin [buildPlugin]">
     <configuration name="OpenHerePlugin [buildPlugin]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -143,8 +164,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.OpenHerePlugin [build]" />
         <item itemvalue="Gradle.OpenHerePlugin [buildPlugin]" />
+        <item itemvalue="Gradle.OpenHerePlugin [build]" />
         <item itemvalue="JUnit.OpenHerePlugin中的所有" />
       </list>
     </recent_temporary>
@@ -165,13 +186,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java</url>
-          <line>156</line>
-          <option name="timeStamp" value="48" />
+          <line>186</line>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java</url>
+          <line>175</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java</url>
+          <line>166</line>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashAction.java</url>
-          <line>10</line>
-          <option name="timeStamp" value="53" />
+          <line>12</line>
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

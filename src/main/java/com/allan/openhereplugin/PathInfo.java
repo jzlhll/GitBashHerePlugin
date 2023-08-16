@@ -1,10 +1,6 @@
 package com.allan.openhereplugin;
-public class PathInfo {
+public class PathInfo extends NoGitPathInfo {
     public static final PathInfo EMPTY = new PathInfo();
-    /**
-     * self orig path
-     */
-    public String path;
 
     /**
      * find upper gitPath

@@ -9,8 +9,14 @@ public class GitBashAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
         Common.assertPath(event.getProject(), p->{
-            PathInfo info = Common.findClosestGitRoot(event);
-            Common.runGitBash(info.gitPath);
+            var info = Common.findClosestGitRoot(event);
+            if (info != null) {
+                if (info instanceof PathInfo) {
+                    Common.runGitBash(((PathInfo) info).gitPath);
+                } else {
+                    Common.runGitBash(info.path);
+                }
+            }
         });
     }
 
