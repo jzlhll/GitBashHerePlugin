@@ -122,6 +122,10 @@ public final class Common {
         runGitBashCmds(gitPath, new String[]{"git diff " + relativeFile});
     }
 
+    public static void runGitDiffTool(String gitPath, String relativeFile) {
+        runGitBashCmds(gitPath, new String[]{"git difftool " + relativeFile});
+    }
+
     public static void runGitStatus(String gitPath, String relativeDir) {
         String s;
         if (relativeDir.isEmpty()) {
