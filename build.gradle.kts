@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.allan"
-version = "0.2.0"
+version = "0.2.2"
 
 repositories {
     mavenCentral()
@@ -28,7 +28,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("221")
-        untilBuild.set("231.*")
+        untilBuild.set("240.*")
     }
 
     signPlugin {
