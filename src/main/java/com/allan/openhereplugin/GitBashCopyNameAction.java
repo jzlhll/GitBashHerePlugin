@@ -11,11 +11,16 @@ import java.io.File;
 
 public class GitBashCopyNameAction extends AnAction {
 
+    public String changeName(String name) {
+        return name;
+    }
+
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
         try {
             var thisFile = event.getDataContext().getData("virtualFile").toString().replace("file://", "");
             var name = new File(thisFile).getName();
+            name = changeName(name);
             CopyPasteManager.getInstance().setContents(new StringSelection(name));
 
             NotificationUtil.sendNotification("copied success! " + name, event, NotificationType.INFORMATION);

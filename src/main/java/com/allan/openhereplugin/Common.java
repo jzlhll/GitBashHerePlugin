@@ -107,6 +107,17 @@ public final class Common {
         return "\"" + s + "\"";
     }
 
+    public static void runWindowsCmd() {
+        try {
+            Runtime run = Runtime.getRuntime();
+            System.out.println("准备打开cmd");
+            //启动cmd窗口
+            run.exec("cmd /k  start cmd.exe");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void runGitBash(String gitPath) {
         if (gitPath == null || gitPath.length() <= 2) {
             return;
@@ -137,7 +148,7 @@ public final class Common {
     }
 
     private static void runGitBashCmds(String gitPath, String[] extraCmds) {
-        if (gitPath == null || gitPath.length() == 0) {
+        if (gitPath == null || gitPath.isEmpty()) {
             return;
         }
         var disk = gitPath.substring(0, 2);
@@ -190,5 +201,4 @@ public final class Common {
 
         return p;
     }
-
 }
