@@ -133,6 +133,10 @@ public final class Common {
         runGitBashCmds(gitPath, new String[]{"git diff " + relativeFile});
     }
 
+    public static void runGitLog(String gitPath, String relativeFile) {
+        runGitBashCmds(gitPath, new String[]{"git log " + relativeFile});
+    }
+
     public static void runGitDiffTool(String gitPath, String relativeFile) {
         runGitBashCmds(gitPath, new String[]{"git difftool " + relativeFile});
     }
