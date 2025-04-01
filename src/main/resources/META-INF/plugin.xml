@@ -15,15 +15,15 @@
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
     This is for someone who prefers using GitBash instead of the git tools in an IDE (only for Windows). <br>
-    How to use: <br><br>
-    1. Right-click on the project name or directory name.
+    How to use: <br>
+    Right-click on the project name or directory name.
     'Git Here:' commands will be shown at the bottom. <br>
-    2. Right-click in the editor.
+    Right-click in the editor.
     'Git Here:' commands will be shown at the bottom.<br>
 
     New feature :<br>
-    1. support for warp.exe new tab! <br>
-    2. Settings(Other Settings) has some configs to custom path or hide menu. <br>
+    1. Settings(Other Settings) have configs to custom path or hide menu. <br>
+    2. support for warp.exe new tab! <br>
 
     Afterward, it will open in Git Bash and perform an additional action once. <br>
     This helps me save time and combine multiple steps: 1. Open In, 2. Explorer, 3. Waiting, 4. Right-click to open in Bash.<br>

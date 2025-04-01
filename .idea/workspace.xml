@@ -6,17 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a9969795-a48f-400e-9245-40d213469437" name="变更" comment="变更">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameNoExtensionAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameNoExtensionAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashDiffAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashDiffAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashLogAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashLogAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashStatusAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashStatusAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/config/GitBashOpenHereConfigurable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/config/GitOpenHereConfigurable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/config/GitBashOpenHereSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/config/GitOpenHereSettings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/util/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/util/Logger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/config/GitOpenHereSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/config/GitOpenHereSettings.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +85,7 @@
     "Gradle.OpenHerePlugin [:Common.main()].executor": "Run",
     "Gradle.OpenHerePlugin [buildPlugin].executor": "Run",
     "Gradle.OpenHerePlugin [setupDependencies].executor": "Run",
-    "Gradle.Run Plugin.executor": "Run",
+    "Gradle.Run Plugin.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -104,11 +94,11 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/mycode/GitBashHerePlugin",
+    "last_opened_file_path": "D:/OpenHerePlugin-0.3.0.zip",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "advanced.settings"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -117,7 +107,7 @@
       <recent name="com.allan.openhereplugin" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Run Plugin">
+  <component name="RunManager" selected="Gradle.OpenHerePlugin [buildPlugin]">
     <configuration name="Common" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.allan.openhereplugin.Common" />
       <module name="OpenHerePlugin.main" />
@@ -209,7 +199,23 @@
       <option name="project" value="LOCAL" />
       <updated>1700623887747</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="变更">
+      <option name="closed" value="true" />
+      <created>1743508045255</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1743508045255</updated>
+    </task>
+    <task id="LOCAL-00003" summary="变更">
+      <option name="closed" value="true" />
+      <created>1743508547689</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743508547689</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

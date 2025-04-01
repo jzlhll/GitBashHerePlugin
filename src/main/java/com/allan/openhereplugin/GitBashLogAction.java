@@ -7,6 +7,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+
 public class GitBashLogAction extends AnAction {
 
     @Override
@@ -14,10 +16,9 @@ public class GitBashLogAction extends AnAction {
         Common.assetGitBashPath(event.getProject(), project -> {
             var bean = Common.findClosestGitRoot(event);
             if (bean != null) {
-                var thisFileStr = event.getDataContext().getData(PlatformDataKeys.VIRTUAL_FILE).toString().replace("file://", "");
                 if (bean instanceof PathInfo) {
                     var info = (PathInfo) bean;
-                    //runGitLog(info.gitPath, info.relativePath);
+                    Common.gitBashRuns.runGitLog(info.gitPath, info.relativePath);
                 } else {
                     Common.gitBashRuns.runGitBash(bean.path);
                 }

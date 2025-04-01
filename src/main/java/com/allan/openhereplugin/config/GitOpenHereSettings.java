@@ -6,7 +6,7 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import org.jetbrains.annotations.NotNull;
 
-@State(name = "GitOpenHereSettings", storages = @Storage("GitOpenHereSettings.xml"))
+@State(name = "GitOpenHereSettings", storages = @Storage("gitbashopenhere01.xml"))
 public class GitOpenHereSettings implements PersistentStateComponent<GitOpenHereSettings.State> {
     public static final int GIT_TOOL_TYPE_BASH_AND_WARP = 2;
     public static final int GIT_TOOL_TYPE_BASH = 0;
