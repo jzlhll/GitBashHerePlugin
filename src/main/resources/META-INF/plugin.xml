@@ -37,6 +37,12 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="com.allan.githere_notify" displayType="BALLOON"/>
+        <!-- 注册到 Other Settings 中的配置项 -->
+        <applicationConfigurable
+                instance="com.allan.openhereplugin.config.GitBashOpenHereConfigurable"/>
+        <!-- 注册持久化组件 -->
+        <applicationService
+                serviceImplementation="com.allan.openhereplugin.config.GitBashOpenHereSettings"/>
     </extensions>
 
     <actions>
@@ -45,8 +51,9 @@
             <action id="allan.githere_list_project_action" class="com.allan.openhereplugin.GitBashAction" text = "git bash"/>
             <action id="allan.githere_list_project_status" class="com.allan.openhereplugin.GitBashStatusAction" text = "git status"/>
             <action id="allan.githere_list_project_diff" class="com.allan.openhereplugin.GitBashDiffAction" text = "git diff"/>
-            <action id="allan.githere_list_project_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "copy name"/>
-            <action id="allan.githere_list_project_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "copy name no extension"/>
+            <action id="allan.githere_list_project_log" class="com.allan.openhereplugin.GitBashLogAction" text = "git log"/>
+            <action id="allan.githere_list_project_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
+            <action id="allan.githere_list_project_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
         </group>
 
         <group id="com.allan.githere_list_editor" text="Git Here:" popup="true">
@@ -54,6 +61,7 @@
             <action id="allan.githere_list_editor_action" class="com.allan.openhereplugin.GitBashAction" text = "git bash"/>
             <action id="allan.githere_list_editor_status" class="com.allan.openhereplugin.GitBashStatusAction" text = "git status"/>
             <action id="allan.githere_list_editor_diff" class="com.allan.openhereplugin.GitBashDiffAction" text = "git diff"/>
+            <action id="allan.githere_list_editor_log" class="com.allan.openhereplugin.GitBashLogAction" text = "git log"/>
             <action id="allan.githere_list_editor_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
             <action id="allan.githere_list_editor_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
         </group>

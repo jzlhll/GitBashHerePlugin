@@ -1,9 +1,9 @@
-package com.allan.openhereplugin;
+package com.allan.openhereplugin.bean;
 
 public class NoGitPathInfo {
-    NoGitPathInfo() {}
+    public NoGitPathInfo() {}
 
-    NoGitPathInfo(String path) {
+    public NoGitPathInfo(String path) {
         this.path = path;
     }
     /**

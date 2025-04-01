@@ -1,4 +1,4 @@
-package com.allan.openhereplugin;
+package com.allan.openhereplugin.bean;
 public class PathInfo extends NoGitPathInfo {
     public static final PathInfo EMPTY = new PathInfo();
 

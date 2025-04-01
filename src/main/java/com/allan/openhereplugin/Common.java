@@ -1,9 +1,14 @@
 package com.allan.openhereplugin;
 
+import com.allan.openhereplugin.bean.IFindGitBashPathCallback;
+import com.allan.openhereplugin.bean.NoGitPathInfo;
+import com.allan.openhereplugin.bean.PathInfo;
+import com.allan.openhereplugin.config.GitBashOpenHereConfigurable;
+import com.allan.openhereplugin.config.GitBashOpenHereSettings;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.PlatformCoreDataKeys;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -13,30 +18,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class Common {
-    private static String foundGitBashPath;
-    private static final String NOT_FOUND_GITBASH_PATH = "-no-found-git-bash";
+    public static String gitBashPath;
 
-    static boolean isWindows() {
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
-            // Windows系统
-            return true;
-        } else if (os.contains("mac")) {
-            // macOS系统
-        } else {
-            // 其他系统
-        }
-        return false;
-    }
-
-    private static String findGitBash() {
+    public static String findGitBashPath() {
         boolean isWin = isWindows();
         if (!isWin) {
             return "notWin";
         }
 
-        if (foundGitBashPath != null) {
-            boolean isNoPath = foundGitBashPath.equals(NOT_FOUND_GITBASH_PATH);
+        if (gitBashPath != null) {
+            boolean isNoPath = gitBashPath.equals(NOT_FOUND_GITBASH_PATH);
             if (isNoPath) {
                 return "no";
             } else {
@@ -58,64 +49,95 @@ public final class Common {
         };
         for (var path : listOfPresetsGitBash) {
             if (Files.exists(Path.of(path))) {
-                foundGitBashPath = path;
+                gitBashPath = path;
                 return "ok";
             }
         }
 
-        foundGitBashPath = NOT_FOUND_GITBASH_PATH;
+        gitBashPath = NOT_FOUND_GITBASH_PATH;
         return "no";
     }
 
-    public static void runCommand(String command) {
-        String[] cmdArr = new String[3];
-        cmdArr[0] = "cmd";
-        cmdArr[1] = "/c";
-        cmdArr[2] = command;
+    private static final String NOT_FOUND_GITBASH_PATH = "-no-found-git-bash";
 
+    static boolean isWindows() {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            // Windows系统
+            return true;
+        } else if (os.contains("mac")) {
+            // macOS系统
+        } else {
+            // 其他系统
+        }
+        return false;
+    }
+
+    public static String findGitBashPathWrapCustom() {
+        var self = findGitBashPath();
+
+        if (GitBashOpenHereSettings.getInstance().getState().isCustomGitToolChecked) {
+            var customPath = GitBashOpenHereSettings.getInstance().getState().gitToolExePath;
+            if (customPath != null && !customPath.isEmpty()) {
+                if (new File(customPath).isFile()) {
+                    return "ok";
+                }
+                return "customError";
+            }
+        }
+
+        return self;
+    }
+
+    /**
+     * 必须在assetPath之后调用
+     */
+    private static String gitToolPathAfterAsset() {
+        if (GitBashOpenHereSettings.getInstance().getState().isCustomGitToolChecked) {
+            return GitBashOpenHereSettings.getInstance().getState().gitToolExePath;
+        }
+        return gitBashPath;
+    }
+
+    public static void runCommand(String command) {
+        ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", command);
+        processBuilder.redirectErrorStream(true);                // 合并错误流到输出流
         try {
-            Runtime.getRuntime().exec(cmdArr, null);
+            processBuilder.start();
+            // 处理输入/输出流（避免阻塞！）
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static boolean assertPath(com.intellij.openapi.project.Project project, IFindGitBashPathCallback callback) {
+    public static void assertPath(Project project, IFindGitBashPathCallback callback) {
         if (project == null) {
-            return false;
+            return;
         }
 
-        var ans = findGitBash();
-
-        if ("notWin".equals(ans)) {
-            int txt = Messages.showOkCancelDialog("message", "Not support linux/mac.", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
-            Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-            return false;
-        }
-
-        if ("no".equals(ans)) {
-            int txt = Messages.showOkCancelDialog("message", "Cannot found git-bash.exe path, please feedback to https://github.com/jzlhll/GitBashHerePlugin", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
-            Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-            return false;
+        switch (findGitBashPathWrapCustom()) {
+            case "notWin": {
+                int txt = Messages.showOkCancelDialog("message", "Not support linux/mac.", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
+                Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
+                return;
+            }
+            case "no": {
+                int txt = Messages.showOkCancelDialog("message", "Cannot found git-bash.exe path, please custom your path in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
+                Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
+                return;
+            }
+            case "customError": {
+                int txt = Messages.showOkCancelDialog("message", "Custom path is not a file. Please check it in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
+                Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
+                return;
+            }
         }
 
         callback.action(project);
-        return true;
     }
 
     private static String kot(String s) {
         return "\"" + s + "\"";
-    }
-
-    public static void runWindowsCmd() {
-        try {
-            Runtime run = Runtime.getRuntime();
-            System.out.println("准备打开cmd");
-            //启动cmd窗口
-            run.exec("cmd /k  start cmd.exe");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void runGitBash(String gitPath) {
@@ -125,20 +147,12 @@ public final class Common {
 
         var disk = gitPath.substring(0, 2);
         String cmd = String.format("%s && cd %s && %s", disk, gitPath,
-                kot(foundGitBashPath));
+                kot(gitToolPathAfterAsset()));
         runCommand(cmd);
     }
 
     public static void runGitDiff(String gitPath, String relativeFile) {
         runGitBashCmds(gitPath, new String[]{"git diff " + relativeFile});
-    }
-
-    public static void runGitLog(String gitPath, String relativeFile) {
-        runGitBashCmds(gitPath, new String[]{"git log " + relativeFile});
-    }
-
-    public static void runGitDiffTool(String gitPath, String relativeFile) {
-        runGitBashCmds(gitPath, new String[]{"git difftool " + relativeFile});
     }
 
     public static void runGitStatus(String gitPath, String relativeDir) {
@@ -166,14 +180,18 @@ public final class Common {
 
         //start "" "%ProgramFiles%\Git\git-bash.exe" -c "echo 1 && echo 2 && /usr/bin/bash --login -i"
         String cmd = String.format("%s && cd %s && start \"\" %s -c %s", disk, gitPath,
-                kot(foundGitBashPath),
+                kot(gitToolPathAfterAsset()),
                 kot(gitCmds.toString()));
         runCommand(cmd);
     }
 
     @Nullable
     static NoGitPathInfo findClosestGitRoot(@Nonnull AnActionEvent event) {
-        var thisFile = event.getDataContext().getData("virtualFile");
+        var thisFile = event.getDataContext().getData(PlatformDataKeys.VIRTUAL_FILE);
+        if (thisFile == null) {
+            // 处理未找到 VirtualFile 的情况（例如弹出提示或日志）
+            return null;
+        }
         var thisFileStr = thisFile.toString().replace("file://", "");
         var file = new File(thisFileStr);
         String dir = "";
@@ -182,7 +200,7 @@ public final class Common {
         } else if (file.exists() && file.isDirectory()) {
             dir = thisFileStr + "/";
         }
-        if (dir.length() == 0) {
+        if (dir.isEmpty()) {
             return null;
         }
 
@@ -191,7 +209,7 @@ public final class Common {
         while(!f.exists()) {
             isCut = true;
             dir = new File(dir).getParent();
-            if (dir == null || dir.isEmpty() || dir.isBlank()) { //blank return no git pathInfo
+            if (dir == null || dir.isBlank()) { //blank return no git pathInfo
                 return new NoGitPathInfo(thisFileStr);
             }
             f = new File(dir + "/.git/config");

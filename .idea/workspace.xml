@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a9969795-a48f-400e-9245-40d213469437" name="变更" comment="变更">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,17 +81,20 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Gradle.Build OpenHerePlugin.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GitBashHerePlugin [setupDependencies].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.OpenHerePlugin [:Common.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.OpenHerePlugin [buildPlugin].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.OpenHerePlugin [setupDependencies].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Run Plugin.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/tools/OpenHerePlugin-0.2.2.zip&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/mycode/GitBashHerePlugin&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -104,13 +106,13 @@
       <recent name="com.allan.openhereplugin" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.OpenHerePlugin [buildPlugin]">
+  <component name="RunManager" selected="Gradle.Run Plugin">
     <configuration name="Common" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.allan.openhereplugin.Common" />
       <module name="OpenHerePlugin.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.allan.openhereplugin.*" />
+          <option name="PATTERN" value="com.allan.openhereplugin.config.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -179,13 +181,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="jdk-17.0.9-jbr-17.0.9-8336523bb0d9-60f32a88" />
-      </set>
-    </attachedChunks>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -220,31 +215,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="变更" />
     <option name="LAST_COMMIT_MESSAGE" value="变更" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java</url>
-          <line>205</line>
-          <option name="timeStamp" value="54" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java</url>
-          <line>194</line>
-          <option name="timeStamp" value="55" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java</url>
-          <line>185</line>
-          <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashAction.java</url>
-          <line>12</line>
-          <option name="timeStamp" value="57" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
