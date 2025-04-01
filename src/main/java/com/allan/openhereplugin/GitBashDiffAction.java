@@ -1,6 +1,7 @@
 package com.allan.openhereplugin;
 
 import com.allan.openhereplugin.bean.PathInfo;
+import com.allan.openhereplugin.config.GitBashOpenHereSettings;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.NotNull;
@@ -27,5 +28,7 @@ public class GitBashDiffAction extends AnAction {
     @Override
     public void update(@NotNull AnActionEvent e) {
         super.update(e);
+        boolean isHide = GitBashOpenHereSettings.getInstance().getState().isGitDiffChecked;
+        e.getPresentation().setVisible(!isHide);
     }
 }

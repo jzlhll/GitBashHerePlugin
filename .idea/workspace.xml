@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a9969795-a48f-400e-9245-40d213469437" name="变更" comment="变更">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameNoExtensionAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameNoExtensionAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashDiffAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashDiffAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashLogAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashLogAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashStatusAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashStatusAction.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
