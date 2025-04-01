@@ -1,19 +1,17 @@
 package com.allan.openhereplugin;
 
 import com.allan.openhereplugin.bean.PathInfo;
-import com.allan.openhereplugin.config.GitBashOpenHereSettings;
+import com.allan.openhereplugin.config.GitOpenHereSettings;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import org.jetbrains.annotations.NotNull;
 
-import static com.allan.openhereplugin.Common.runGitBash;
-
 public class GitBashLogAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {
-        Common.assertPath(event.getProject(), project -> {
+        Common.assetGitBashPath(event.getProject(), project -> {
             var bean = Common.findClosestGitRoot(event);
             if (bean != null) {
                 var thisFileStr = event.getDataContext().getData(PlatformDataKeys.VIRTUAL_FILE).toString().replace("file://", "");
@@ -21,7 +19,7 @@ public class GitBashLogAction extends AnAction {
                     var info = (PathInfo) bean;
                     //runGitLog(info.gitPath, info.relativePath);
                 } else {
-                    runGitBash(bean.path);
+                    Common.gitBashRuns.runGitBash(bean.path);
                 }
             }
         });
@@ -30,7 +28,10 @@ public class GitBashLogAction extends AnAction {
     @Override
     public void update(@NotNull AnActionEvent e) {
         super.update(e);
-        boolean isHide = GitBashOpenHereSettings.getInstance().getState().isGitLogChecked;
+        boolean isHide = GitOpenHereSettings.getInstance().getState().isGitLogChecked;
+        if (!GitOpenHereSettings.getInstance().isSupportBash()) {
+            isHide = true;
+        }
         e.getPresentation().setVisible(!isHide);
     }
 }

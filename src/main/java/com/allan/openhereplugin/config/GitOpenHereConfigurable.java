@@ -7,92 +7,126 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 
-public class GitBashOpenHereConfigurable implements Configurable {
+public class GitOpenHereConfigurable implements Configurable {
     private JPanel mainPanel;
     private JTextField exePathTextField;
+
     private JCheckBox gitStatusCheckBox;
     private JCheckBox gitDiffCheckBox;
     private JCheckBox gitLogCheckBox;
+    //private JCheckBox warpTabCheckBox;
+
     private JCheckBox copyNameCheckBox;
     private JCheckBox copyNameNoExtensionCheckBox;
-    private JCheckBox customGitToolCheckBox; // 新增复选框
+
+    private JCheckBox gitBashCheckbox;
+    private JCheckBox warpCheckbox;
+
 
     @Override
     public @Nullable JComponent createComponent() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        //第一行：
-        addSectionHeader("Your current git tool exe path:");
-        var ans = Common.findGitBashPath();
-        if ("ok".equals(ans)) {
-            addDesc(Common.gitBashPath);
-            mainPanel.add(Box.createVerticalStrut(30));
+       // mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        //git bash 
+        addCheckboxRow("Enable ‘Git Bash’", gitBashCheckbox = new JCheckBox(), false);
+        var ans = Common.gitBashRuns.findPath();
+        if ("ok".equals(ans.first)) {
+            exePathTextField = addSectionHeader("Your git-bash.exe path is:  " + Common.gitBashPath, "You can change it here:");
+        } else {
+            exePathTextField = addSectionHeader("Can find your git-bash.exe path.", "Custom git-bash.exe path here:");
         }
+        mainPanel.add(Box.createVerticalStrut(12));
 
-        // 第一行：Git工具路径
-        // 修改后（替换为带复选框的行）：
-        customGitToolCheckBox = new JCheckBox();
-        addCheckboxRow("Use custom git tool exe path:", customGitToolCheckBox, false);
-        exePathTextField = createPathTextField();
-        mainPanel.add(exePathTextField);
-        mainPanel.add(Box.createVerticalStrut(30));
-        mainPanel.add(Box.createVerticalStrut(10));
-
-        // 第二行：git status 选项
         addCheckboxRow("Hide options: git status",
                 gitStatusCheckBox = new JCheckBox(), true);
-
-        // 第三行：git diff 选项
         addCheckboxRow("Hide options: git diff",
                 gitDiffCheckBox = new JCheckBox(), true);
-
-        // 第三行：git diff 选项
         addCheckboxRow("Hide options: git log",
                 gitLogCheckBox = new JCheckBox(), true);
-
         addCheckboxRow("Hide options: copy name",
                 copyNameCheckBox = new JCheckBox(), true);
-
         addCheckboxRow("Hide options: copy name no extension",
                 copyNameNoExtensionCheckBox = new JCheckBox(), true);
+
+        sperator();
+        //warp
+        addCheckboxRow("Enable ‘Warp’", warpCheckbox = new JCheckBox(), false);
+//        addCheckboxRow("Hide options: warp tab",
+//                warpTabCheckBox = new JCheckBox(), true);
+
+        mainPanel.add(Box.createVerticalStrut(12));
         return mainPanel;
     }
 
     @Override
     public boolean isModified() {
-        GitBashOpenHereSettings.State state = GitBashOpenHereSettings.getInstance().getState();
-        return !exePathTextField.getText().equals(state.gitToolExePath) ||
+        GitOpenHereSettings.State state = GitOpenHereSettings.getInstance().getState();
+        var enable1 = gitBashCheckbox.isSelected();
+        var enable2 = warpCheckbox.isSelected();
+        int type;
+        if (enable1 && enable2) {
+            type = 2;
+        } else if (enable1) {
+            type = 0;
+        } else if (enable2) {
+            type = 1;
+        } else {
+            type = -1;
+        }
+
+        return !exePathTextField.getText().equals(state.gitBashCustomPath) ||
                 gitStatusCheckBox.isSelected() != state.isGitStatusChecked ||
                 gitDiffCheckBox.isSelected() != state.isGitDiffChecked ||
                 gitLogCheckBox.isSelected() != state.isGitLogChecked ||
+               // warpTabCheckBox.isSelected() != state.isWarpTabChecked ||
                 copyNameNoExtensionCheckBox.isSelected() != state.isCopyNameNoExChecked ||
                 copyNameCheckBox.isSelected() != state.isCopyNameChecked ||
-                customGitToolCheckBox.isSelected() != state.isCustomGitToolChecked;
+                type != state.gitToolType;
     }
 
     @Override
     public void apply() {
-        GitBashOpenHereSettings.State state = GitBashOpenHereSettings.getInstance().getState();
-        state.gitToolExePath = exePathTextField.getText().trim();
+        GitOpenHereSettings.State state = GitOpenHereSettings.getInstance().getState();
+        state.gitBashCustomPath = exePathTextField.getText().trim();
+
         state.isGitStatusChecked = gitStatusCheckBox.isSelected();
         state.isGitDiffChecked = gitDiffCheckBox.isSelected();
         state.isGitLogChecked = gitLogCheckBox.isSelected();
-        state.isCustomGitToolChecked = customGitToolCheckBox.isSelected();
+      //  state.isWarpTabChecked = warpTabCheckBox.isSelected();
         state.isCopyNameNoExChecked = copyNameNoExtensionCheckBox.isSelected();
         state.isCopyNameChecked = copyNameCheckBox.isSelected();
+
+        var enable1 = gitBashCheckbox.isSelected();
+        var enable2 = warpCheckbox.isSelected();
+        int type;
+        if (enable1 && enable2) {
+            type = 2;
+        } else if (enable1) {
+            type = 0;
+        } else if (enable2) {
+            type = 1;
+        } else {
+            type = -1;
+        }
+        state.gitToolType = type;
     }
 
     @Override
     public void reset() {
-        GitBashOpenHereSettings.State state = GitBashOpenHereSettings.getInstance().getState();
-        exePathTextField.setText(state.gitToolExePath);
+        GitOpenHereSettings.State state = GitOpenHereSettings.getInstance().getState();
+        exePathTextField.setText(state.gitBashCustomPath);
+
         gitStatusCheckBox.setSelected(state.isGitStatusChecked);
         gitDiffCheckBox.setSelected(state.isGitDiffChecked);
         gitLogCheckBox.setSelected(state.isGitLogChecked);
-        customGitToolCheckBox.setSelected(state.isCustomGitToolChecked);
+      //  warpTabCheckBox.setSelected(state.isWarpTabChecked);
         copyNameCheckBox.setSelected(state.isCopyNameChecked);
         copyNameNoExtensionCheckBox.setSelected(state.isCopyNameNoExChecked);
+
+        gitBashCheckbox.setSelected(state.gitToolType == 0 || state.gitToolType == 2);
+        warpCheckbox.setSelected(state.gitToolType == 1 || state.gitToolType == 2);
     }
 
     @Override
@@ -100,23 +134,33 @@ public class GitBashOpenHereConfigurable implements Configurable {
         return "GitBashOpenHere";
     }
 
-    private void addSectionHeader(String text) {
+    private JTextField addSectionHeader(String text, String desc) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 85));
+
         JLabel label = new JLabel(text);
         label.setFont(label.getFont().deriveFont(Font.BOLD));
-        mainPanel.add(label);
-    }
+        label.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
 
-    private void addDesc(String text) {
-        JLabel label = new JLabel(text);
-        label.setFont(label.getFont().deriveFont(14f));
-        mainPanel.add(label);
+        JLabel label2 = new JLabel(desc);
+        label2.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(label2, BorderLayout.CENTER);
+
+        JTextField field = new JTextField();
+        field.setMaximumSize(new Dimension(850, 35));
+        field.setToolTipText("Example: C:\\Program Files\\Git\\bin\\git.exe");
+        panel.add(field, BorderLayout.SOUTH);
+
+        mainPanel.add(panel);
+
+        return field;
     }
 
     private void addCheckboxRow(String title, JCheckBox checkBox, Boolean hasVertPadding) {
-        // 主容器强制左对齐（关键修复）
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
 
         // 复选框对齐优化
@@ -139,11 +183,9 @@ public class GitBashOpenHereConfigurable implements Configurable {
         if(hasVertPadding) mainPanel.add(Box.createVerticalStrut(8)); // 建议添加行间距
     }
 
-    private JTextField createPathTextField() {
-        JTextField field = new JTextField();
-        field.setMaximumSize(new Dimension(850, 35));
-        field.setToolTipText("Example: C:\\Program Files\\Git\\bin\\git.exe");
-        return field;
+    private void sperator() {
+        var sp = new JSeparator(SwingConstants.HORIZONTAL);
+        sp.setMaximumSize(new Dimension(Short.MAX_VALUE, 18));
+        mainPanel.add(sp);
     }
-
 }

@@ -1,6 +1,5 @@
 package com.allan.openhereplugin.util;
 
-import com.esotericsoftware.minlog.Log;
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -29,8 +28,7 @@ public class Logger {
 
     private static final com.intellij.openapi.diagnostic.Logger LOG = com.intellij.openapi.diagnostic.Logger.getInstance(Logger.class);
     public static void d(String s) {
-        System.out.println("allan " + s);
-        Log.warn("allan " + s);
+        LOG.warn("allan " + s);
     }
 
     public static void sendNotification(String message, AnActionEvent event, NotificationType notificationType) {

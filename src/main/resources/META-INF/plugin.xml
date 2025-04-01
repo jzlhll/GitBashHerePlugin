@@ -17,13 +17,18 @@
     This is for someone who prefers using GitBash instead of the git tools in an IDE (only for Windows). <br>
     How to use: <br><br>
     1. Right-click on the project name or directory name.
-    When the project menu opens, 'Git Here:' commands will be shown at the bottom. <br>
-    2. Right-click in the editor. When the menu appears, 'Git Here:' commands will be shown at the bottom.<br>
+    'Git Here:' commands will be shown at the bottom. <br>
+    2. Right-click in the editor.
+    'Git Here:' commands will be shown at the bottom.<br>
+
+    New feature :<br>
+    1. support for warp.exe new tab! <br>
+    2. Settings(Other Settings) has some configs to custom path or hide menu. <br>
+
     Afterward, it will open in Git Bash and perform an additional action once. <br>
     This helps me save time and combine multiple steps: 1. Open In, 2. Explorer, 3. Waiting, 4. Right-click to open in Bash.<br>
     If this plugin is unable to find your git-bash.exe, please contact me. <br>
     Enjoy it! <br>
-    New Feature functions: "copy name", "cmd". <br><br>
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_a029e018-c693-48e3-a1e5-cc352e9405cf" alt="1">
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_46487e25-ed1b-43ca-9633-55002ad03787" alt="2">
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_ea7b94cd-4e61-4094-b7ef-a3f715f79aa0" alt="3">
@@ -39,10 +44,10 @@
         <notificationGroup id="com.allan.githere_notify" displayType="BALLOON"/>
         <!-- 注册到 Other Settings 中的配置项 -->
         <applicationConfigurable
-                instance="com.allan.openhereplugin.config.GitBashOpenHereConfigurable"/>
+                instance="com.allan.openhereplugin.config.GitOpenHereConfigurable"/>
         <!-- 注册持久化组件 -->
         <applicationService
-                serviceImplementation="com.allan.openhereplugin.config.GitBashOpenHereSettings"/>
+                serviceImplementation="com.allan.openhereplugin.config.GitOpenHereSettings"/>
     </extensions>
 
     <actions>
@@ -52,6 +57,9 @@
             <action id="allan.githere_list_project_status" class="com.allan.openhereplugin.GitBashStatusAction" text = "git status"/>
             <action id="allan.githere_list_project_diff" class="com.allan.openhereplugin.GitBashDiffAction" text = "git diff"/>
             <action id="allan.githere_list_project_log" class="com.allan.openhereplugin.GitBashLogAction" text = "git log"/>
+
+            <action id="allan.githere_list_project_warp_tab" class="com.allan.openhereplugin.WarpTabAction" text = "warp tab"/>
+
             <action id="allan.githere_list_project_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
             <action id="allan.githere_list_project_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
         </group>
@@ -62,6 +70,7 @@
             <action id="allan.githere_list_editor_status" class="com.allan.openhereplugin.GitBashStatusAction" text = "git status"/>
             <action id="allan.githere_list_editor_diff" class="com.allan.openhereplugin.GitBashDiffAction" text = "git diff"/>
             <action id="allan.githere_list_editor_log" class="com.allan.openhereplugin.GitBashLogAction" text = "git log"/>
+            <action id="allan.githere_list_editor_warp_tab" class="com.allan.openhereplugin.WarpTabAction" text = "warp tab"/>
             <action id="allan.githere_list_editor_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
             <action id="allan.githere_list_editor_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
         </group>

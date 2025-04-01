@@ -1,6 +1,6 @@
 package com.allan.openhereplugin;
 
-import com.allan.openhereplugin.config.GitBashOpenHereSettings;
+import com.allan.openhereplugin.config.GitOpenHereSettings;
 import com.allan.openhereplugin.util.Logger;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -45,6 +45,6 @@ public class GitBashCopyNameAction extends AnAction {
     }
 
     protected boolean isNeedShow() {
-        return !GitBashOpenHereSettings.getInstance().getState().isCopyNameChecked;
+        return !GitOpenHereSettings.getInstance().getState().isCopyNameChecked;
     }
 }

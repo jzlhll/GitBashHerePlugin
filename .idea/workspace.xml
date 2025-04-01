@@ -6,11 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="a9969795-a48f-400e-9245-40d213469437" name="变更" comment="变更">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/Common.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameNoExtensionAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashCopyNameNoExtensionAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashDiffAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashDiffAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashLogAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashLogAction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashStatusAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/GitBashStatusAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/config/GitBashOpenHereConfigurable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/config/GitOpenHereConfigurable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/config/GitBashOpenHereSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/config/GitOpenHereSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/util/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/allan/openhereplugin/util/Logger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,8 +60,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Action" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -82,31 +88,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build OpenHerePlugin.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GitBashHerePlugin [setupDependencies].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.OpenHerePlugin [:Common.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.OpenHerePlugin [buildPlugin].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.OpenHerePlugin [setupDependencies].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Run Plugin.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/mycode/GitBashHerePlugin&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build OpenHerePlugin.executor": "Run",
+    "Gradle.GitBashHerePlugin [setupDependencies].executor": "Run",
+    "Gradle.OpenHerePlugin [:Common.main()].executor": "Run",
+    "Gradle.OpenHerePlugin [buildPlugin].executor": "Run",
+    "Gradle.OpenHerePlugin [setupDependencies].executor": "Run",
+    "Gradle.Run Plugin.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "android.gradle.sync.needed": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/mycode/GitBashHerePlugin",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "advanced.settings"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.allan.openhereplugin.bean" />
       <recent name="com.allan.openhereplugin" />
     </key>
   </component>

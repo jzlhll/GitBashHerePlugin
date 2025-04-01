@@ -1,6 +1,6 @@
 package com.allan.openhereplugin;
 
-import com.allan.openhereplugin.config.GitBashOpenHereSettings;
+import com.allan.openhereplugin.config.GitOpenHereSettings;
 
 public class GitBashCopyNameNoExtensionAction extends GitBashCopyNameAction {
     @Override
@@ -13,6 +13,6 @@ public class GitBashCopyNameNoExtensionAction extends GitBashCopyNameAction {
 
     @Override
     protected boolean isNeedShow() {
-        return !GitBashOpenHereSettings.getInstance().getState().isCopyNameNoExChecked;
+        return !GitOpenHereSettings.getInstance().getState().isCopyNameNoExChecked;
     }
 }
