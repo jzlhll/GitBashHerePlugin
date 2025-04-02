@@ -25,13 +25,14 @@
     1. Settings(Other Settings) have configs to custom path or hide menu. <br>
     2. support for warp.exe new tab! <br>
 
-    Afterward, it will open in Git Bash and perform an additional action once. <br>
+    Afterward, it will open in Git Bash or Warp. <br>
     This helps me save time and combine multiple steps: 1. Open In, 2. Explorer, 3. Waiting, 4. Right-click to open in Bash.<br>
-    If this plugin is unable to find your git-bash.exe, please contact me. <br>
-    Enjoy it! <br>
-    <img src="https://plugins.jetbrains.com/files/21517/screenshot_a029e018-c693-48e3-a1e5-cc352e9405cf" alt="1">
-    <img src="https://plugins.jetbrains.com/files/21517/screenshot_46487e25-ed1b-43ca-9633-55002ad03787" alt="2">
-    <img src="https://plugins.jetbrains.com/files/21517/screenshot_ea7b94cd-4e61-4094-b7ef-a3f715f79aa0" alt="3">
+    If this plugin is unable to find your git-bash.exe, you can custom path in settings. <br>
+    Just enjoy it! <br>
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_9eb4667c-537c-442a-8bda-346a53bc0d6a" alt="1">
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_a029e018-c693-48e3-a1e5-cc352e9405cf" alt="2">
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_46487e25-ed1b-43ca-9633-55002ad03787" alt="3">
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_ea7b94cd-4e61-4094-b7ef-a3f715f79aa0" alt="4">
     ]]></description>
 
     <!-- Product and plugin compatibility requirements.
