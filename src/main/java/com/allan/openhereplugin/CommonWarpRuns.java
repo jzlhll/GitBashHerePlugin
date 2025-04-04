@@ -5,6 +5,12 @@ import com.allan.openhereplugin.bean.IWarpRuns;
 import java.io.IOException;
 
 public class CommonWarpRuns implements IWarpRuns {
+
+    @Override
+    public String system() {
+        return Common.SYSTEM_WINDOWS;
+    }
+
     private static void runCommand(String command) {
         ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", command);
         processBuilder.redirectErrorStream(true);                // 合并错误流到输出流

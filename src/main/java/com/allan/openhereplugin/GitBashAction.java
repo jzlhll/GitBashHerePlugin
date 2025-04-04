@@ -10,13 +10,15 @@ public class GitBashAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
+        var gitBashRuns = Common.gitBashRunner;
+        if (gitBashRuns == null) return;
         Common.assetGitBashPath(event.getProject(), p->{
             var info = Common.findClosestGitRoot(event);
             if (info != null) {
                 if (info instanceof PathInfo) {
-                    Common.gitBashRuns.runGitBash(((PathInfo) info).gitPath);
+                    gitBashRuns.runGitBash(((PathInfo) info).gitPath);
                 } else {
-                    Common.gitBashRuns.runGitBash(info.path);
+                    gitBashRuns.runGitBash(info.path);
                 }
             }
         });

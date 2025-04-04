@@ -1,6 +1,7 @@
 package com.allan.openhereplugin;
 
 import com.allan.openhereplugin.bean.IGitBashRuns;
+import com.allan.openhereplugin.bean.IWindowRuns;
 import com.allan.openhereplugin.bean.Pair;
 import com.allan.openhereplugin.config.GitOpenHereSettings;
 
@@ -12,15 +13,23 @@ import java.nio.file.Path;
 import static com.allan.openhereplugin.Common.*;
 import static com.allan.openhereplugin.util.Util.kot;
 
-public class CommonGitBashRuns implements IGitBashRuns {
+public class CommonGitBashRuns implements IGitBashRuns, IWindowRuns {
+    static final String NOT_FOUND_GITBASH_PATH = "-no-found-git-bash";
+
+    private String origGitToolExePath;
 
     @Override
-    public Pair findPath() {
-        boolean isWin = isWindows();
-        if (!isWin) {
-            return new Pair("notWin", "");
-        }
+    public String origPathExe() {
+        return origGitToolExePath;
+    }
 
+    @Override
+    public String system() {
+        return SYSTEM_WINDOWS;
+    }
+
+    @Override
+    public Pair findPathExe() {
         if (GitOpenHereSettings.getInstance().getState().gitToolType == 0) {
             var customPath = GitOpenHereSettings.getInstance().getState().gitBashCustomPath;
             if (customPath != null && !customPath.isEmpty()) {
@@ -31,12 +40,12 @@ public class CommonGitBashRuns implements IGitBashRuns {
             }
         }
 
-        if (gitBashPath != null) {
-            boolean isNoPath = gitBashPath.equals(NOT_FOUND_GITBASH_PATH);
+        if (origGitToolExePath != null) {
+            boolean isNoPath = origGitToolExePath.equals(NOT_FOUND_GITBASH_PATH);
             if (isNoPath) {
                 return new Pair("no", "");
             } else {
-                return new Pair("ok", gitBashPath);
+                return new Pair("ok", origGitToolExePath);
             }
         }
 
@@ -56,12 +65,12 @@ public class CommonGitBashRuns implements IGitBashRuns {
 
         for (var path : listOfPresetsGitBash) {
             if (Files.exists(Path.of(path))) {
-                gitBashPath = path;
-                return new Pair("ok", gitBashPath);
+                origGitToolExePath = path;
+                return new Pair("ok", origGitToolExePath);
             }
         }
 
-        gitBashPath = NOT_FOUND_GITBASH_PATH;
+        origGitToolExePath = NOT_FOUND_GITBASH_PATH;
         return new Pair("no", "");
     }
 
@@ -75,10 +84,10 @@ public class CommonGitBashRuns implements IGitBashRuns {
                 return path;
             }
         }
-        return gitBashPath;
+        return origGitToolExePath;
     }
 
-    private static void runCommand(String command) {
+    private void runCommand(String command) {
         ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", command);
         processBuilder.redirectErrorStream(true);                // 合并错误流到输出流
         try {

@@ -5,30 +5,30 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 
 public final class Common {
-    public static String gitBashPath;
+    @Nullable
+    public static final IGitBashRuns gitBashRunner = IGitBashRuns.create();
+    public static final IWarpRuns warpRunner = IWarpRuns.create();
 
-    public static final CommonGitBashRuns gitBashRuns = new CommonGitBashRuns();
-    public static final CommonWarpRuns warpRuns = new CommonWarpRuns();
+    public static final String SYSTEM_WINDOWS = "win";
+    public static final String SYSTEM_MAC = "mac";
 
-    static final String NOT_FOUND_GITBASH_PATH = "-no-found-git-bash";
-
-    static boolean isWindows() {
+    @Nullable
+    public static String supportSystem() {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
             // Windows系统
-            return true;
+            return SYSTEM_WINDOWS;
         } else if (os.contains("mac")) {
             // macOS系统
-        } else {
-            // 其他系统
+            return SYSTEM_MAC;
         }
-        return false;
+        return null;
     }
 
     public static void assetGitBashPath(Project project, IFindGitBashPathCallback callback) {
@@ -36,21 +36,28 @@ public final class Common {
             return;
         }
 
-        switch (gitBashRuns.findPath().first) {
-            case "notWin": {
-                int txt = Messages.showOkCancelDialog("message", "Not support linux/mac.", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
-                Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-                return;
-            }
-            case "no": {
-                int txt = Messages.showOkCancelDialog("message", "Cannot found git-bash.exe path, please custom your path in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
-                Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-                return;
-            }
-            case "customError": {
-                int txt = Messages.showOkCancelDialog("message", "Custom path is not a file. Please check it in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
-                Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-                return;
+        var gitBashRuns = gitBashRunner;
+        if (gitBashRuns == null) {
+            return;
+        }
+
+        if (gitBashRuns instanceof IWindowRuns) {
+            switch (((IWindowRuns) gitBashRuns).findPathExe().first) {
+                case "notWin": {
+                    int txt = Messages.showOkCancelDialog("Message", "Not support linux/mac.", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
+                    Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
+                    return;
+                }
+                case "no": {
+                    int txt = Messages.showOkCancelDialog("Message", "Cannot found git-bash.exe path, please custom your path in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
+                    Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
+                    return;
+                }
+                case "customError": {
+                    int txt = Messages.showOkCancelDialog("Message", "Custom path is not a file. Please check it in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
+                    Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
+                    return;
+                }
             }
         }
 

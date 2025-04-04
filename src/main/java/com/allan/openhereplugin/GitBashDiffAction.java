@@ -9,15 +9,17 @@ import org.jetbrains.annotations.NotNull;
 public class GitBashDiffAction extends AnAction {
 
     @Override
-    public void actionPerformed(AnActionEvent event) {
+    public void actionPerformed(@NotNull AnActionEvent event) {
+        var gitBashRuns = Common.gitBashRunner;
+        if (gitBashRuns == null) return;
         Common.assetGitBashPath(event.getProject(), project -> {
             var bean = Common.findClosestGitRoot(event);
             if (bean != null) {
                 if (bean instanceof PathInfo) {
                     var info = (PathInfo) bean;
-                    Common.gitBashRuns.runGitDiff(info.gitPath, info.relativePath);
+                    gitBashRuns.runGitDiff(info.gitPath, info.relativePath);
                 } else {
-                    Common.gitBashRuns.runGitBash(bean.path);
+                    gitBashRuns.runGitBash(bean.path);
                 }
             }
         });

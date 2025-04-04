@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.allan"
-version = "0.3.1"
+version = "0.3.2"
 
 repositories {
     mavenCentral()
@@ -14,8 +14,7 @@ repositories {
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
     version.set("2022.1.4")
-    type.set("IC") // Target IDE Platform
-
+    //type.set("IC") // Target IDE Platform
     plugins.set(listOf(/* Plugin Dependencies */))
 }
 
@@ -28,7 +27,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("221")
-        untilBuild.set("260.*")
+        untilBuild.set("251.*")
     }
 
     signPlugin {

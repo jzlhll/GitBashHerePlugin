@@ -12,15 +12,17 @@ import java.io.File;
 public class GitBashLogAction extends AnAction {
 
     @Override
-    public void actionPerformed(AnActionEvent event) {
+    public void actionPerformed(@NotNull AnActionEvent event) {
+        var gitBashRuns = Common.gitBashRunner;
+        if (gitBashRuns == null) return;
         Common.assetGitBashPath(event.getProject(), project -> {
             var bean = Common.findClosestGitRoot(event);
             if (bean != null) {
                 if (bean instanceof PathInfo) {
                     var info = (PathInfo) bean;
-                    Common.gitBashRuns.runGitLog(info.gitPath, info.relativePath);
+                    gitBashRuns.runGitLog(info.gitPath, info.relativePath);
                 } else {
-                    Common.gitBashRuns.runGitBash(bean.path);
+                    gitBashRuns.runGitBash(bean.path);
                 }
             }
         });

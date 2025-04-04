@@ -10,12 +10,14 @@ public class WarpTabAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
+        var warpRuns = Common.warpRunner;
+        if (warpRuns == null) return;
         var info = Common.findClosestGitRoot(event);
         if (info != null) {
             if (info instanceof PathInfo) {
-                Common.warpRuns.runTab(((PathInfo) info).gitPath);
+                warpRuns.runTab(((PathInfo) info).gitPath);
             } else {
-                Common.warpRuns.runTab(info.path);
+                warpRuns.runTab(info.path);
             }
         }
     }

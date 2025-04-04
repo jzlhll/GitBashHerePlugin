@@ -13,7 +13,10 @@ public class GitBashStatusAction extends AnAction {
     private static final boolean USE_4_DEBUG_LOG = false;
 
     @Override
-    public void actionPerformed(AnActionEvent event) {
+    public void actionPerformed(@NotNull AnActionEvent event) {
+        var gitBashRuns = Common.gitBashRunner;
+        if (gitBashRuns == null) return;
+
         if (USE_4_DEBUG_LOG) {
             var log = Logger.cacheFetchAndClear();
             Logger.sendNotification(log, event, NotificationType.INFORMATION);
@@ -23,9 +26,9 @@ public class GitBashStatusAction extends AnAction {
                 if (bean != null) {
                     if (bean instanceof PathInfo) {
                         var info = (PathInfo) bean;
-                        Common.gitBashRuns.runGitStatus(info.gitPath, info.relativePath);
+                        gitBashRuns.runGitStatus(info.gitPath, info.relativePath);
                     } else {
-                        Common.gitBashRuns.runGitBash(bean.path);
+                        gitBashRuns.runGitBash(bean.path);
                     }
                 }
             });

@@ -1,6 +1,7 @@
 package com.allan.openhereplugin.config;
 
 import com.allan.openhereplugin.Common;
+import com.allan.openhereplugin.bean.IWindowRuns;
 import com.intellij.openapi.options.Configurable;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -9,6 +10,7 @@ import java.awt.*;
 
 public class GitOpenHereConfigurable implements Configurable {
     private JPanel mainPanel;
+    @Nullable
     private JTextField exePathTextField;
 
     private JCheckBox gitStatusCheckBox;
@@ -22,7 +24,6 @@ public class GitOpenHereConfigurable implements Configurable {
     private JCheckBox gitBashCheckbox;
     private JCheckBox warpCheckbox;
 
-
     @Override
     public @Nullable JComponent createComponent() {
         mainPanel = new JPanel();
@@ -31,13 +32,17 @@ public class GitOpenHereConfigurable implements Configurable {
 
         //git bash 
         addCheckboxRow("Enable ‘Git Bash’", gitBashCheckbox = new JCheckBox(), false);
-        var ans = Common.gitBashRuns.findPath();
-        if ("ok".equals(ans.first)) {
-            exePathTextField = addSectionHeader("Your git-bash.exe path is:  " + Common.gitBashPath, "You can change it here:");
-        } else {
-            exePathTextField = addSectionHeader("Can find your git-bash.exe path.", "Custom git-bash.exe path here:");
+        var gitBashRuns = Common.gitBashRunner;
+        if (gitBashRuns instanceof IWindowRuns) {
+            var runner = (IWindowRuns) gitBashRuns;
+            var ans = runner.findPathExe();
+            if ("ok".equals(ans.first)) {
+                exePathTextField = addSectionHeader("Your git-bash.exe path is:  " + runner.origPathExe(), "You can change it here:");
+            } else {
+                exePathTextField = addSectionHeader("Can find your git-bash.exe path.", "Custom git-bash.exe path here:");
+            }
+            mainPanel.add(Box.createVerticalStrut(12));
         }
-        mainPanel.add(Box.createVerticalStrut(12));
 
         addCheckboxRow("Hide options: git status",
                 gitStatusCheckBox = new JCheckBox(), true);
@@ -76,7 +81,8 @@ public class GitOpenHereConfigurable implements Configurable {
             type = -1;
         }
 
-        return !exePathTextField.getText().equals(state.gitBashCustomPath) ||
+        var editSame = exePathTextField == null || exePathTextField.getText().equals(state.gitBashCustomPath);
+        return !editSame ||
                 gitStatusCheckBox.isSelected() != state.isGitStatusChecked ||
                 gitDiffCheckBox.isSelected() != state.isGitDiffChecked ||
                 gitLogCheckBox.isSelected() != state.isGitLogChecked ||
@@ -89,7 +95,7 @@ public class GitOpenHereConfigurable implements Configurable {
     @Override
     public void apply() {
         GitOpenHereSettings.State state = GitOpenHereSettings.getInstance().getState();
-        state.gitBashCustomPath = exePathTextField.getText().trim();
+        if(exePathTextField != null) state.gitBashCustomPath = exePathTextField.getText().trim();
 
         state.isGitStatusChecked = gitStatusCheckBox.isSelected();
         state.isGitDiffChecked = gitDiffCheckBox.isSelected();
@@ -116,7 +122,7 @@ public class GitOpenHereConfigurable implements Configurable {
     @Override
     public void reset() {
         GitOpenHereSettings.State state = GitOpenHereSettings.getInstance().getState();
-        exePathTextField.setText(state.gitBashCustomPath);
+        if(exePathTextField != null) exePathTextField.setText(state.gitBashCustomPath);
 
         gitStatusCheckBox.setSelected(state.isGitStatusChecked);
         gitDiffCheckBox.setSelected(state.isGitDiffChecked);

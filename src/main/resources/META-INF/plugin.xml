@@ -14,21 +14,21 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    This is for someone who prefers using GitBash instead of the git tools in an IDE (only for Windows). <br>
-    How to use: <br>
-    Right-click on the project name or directory name.
-    'Git Here:' commands will be shown at the bottom. <br>
-    Right-click in the editor.
-    'Git Here:' commands will be shown at the bottom.<br>
-
-    New feature :<br>
-    1. Settings(Other Settings) have configs to custom path or hide menu. <br>
-    2. support for warp.exe new tab! <br>
-
-    Afterward, it will open in Git Bash or Warp. <br>
-    This helps me save time and combine multiple steps: 1. Open In, 2. Explorer, 3. Waiting, 4. Right-click to open in Bash.<br>
-    If this plugin is unable to find your git-bash.exe, you can custom path in settings. <br>
-    Just enjoy it! <br>
+    1. Support macOS!<br/>
+    2. Settings(Other Settings) have configs <br/>
+    to custom path or hide menu.<br/>
+    3. support for 'warp' new tab! <br/>
+    This is for someone who prefers <br/>
+    using terminal instead of git tools in IDEA. <br/><br/>
+    How to use: <br/>
+    Right-click on project/directory/file name, <br/>
+    or Right-click in the editor.<br/>
+    'Git Here:' menu shows at the bottom. <br/>
+    Afterward, it will open in <br/>
+    Git Bash (or Mac's terminal) or Warp. <br/><br/>
+    On Windows, if it's unable to locate git-bash.exe,<br/>
+    you can custom path in settings. <br/><br/>
+    Enjoy it! <br/>
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_9eb4667c-537c-442a-8bda-346a53bc0d6a" alt="1">
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_a029e018-c693-48e3-a1e5-cc352e9405cf" alt="2">
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_46487e25-ed1b-43ca-9633-55002ad03787" alt="3">
