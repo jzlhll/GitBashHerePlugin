@@ -1,7 +1,7 @@
 package com.allan.openhereplugin.config;
 
 import com.allan.openhereplugin.Common;
-import com.allan.openhereplugin.bean.IWindowRuns;
+import com.allan.openhereplugin.bean.IWindowGitBashRuns;
 import com.intellij.openapi.options.Configurable;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
@@ -33,8 +33,8 @@ public class GitOpenHereConfigurable implements Configurable {
         //git bash 
         addCheckboxRow("Enable ‘Git Bash’", gitBashCheckbox = new JCheckBox(), false);
         var gitBashRuns = Common.gitBashRunner;
-        if (gitBashRuns instanceof IWindowRuns) {
-            var runner = (IWindowRuns) gitBashRuns;
+        if (gitBashRuns instanceof IWindowGitBashRuns) {
+            var runner = (IWindowGitBashRuns) gitBashRuns;
             var ans = runner.findPathExe();
             if ("ok".equals(ans.first)) {
                 exePathTextField = addSectionHeader("Your git-bash.exe path is:  " + runner.origPathExe(), "You can change it here:");

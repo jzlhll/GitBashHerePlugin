@@ -1,5 +1,6 @@
 package com.allan.openhereplugin;
 
+import com.allan.openhereplugin.bean.IWindowGitBashRuns;
 import com.allan.openhereplugin.bean.PathInfo;
 import com.allan.openhereplugin.config.GitOpenHereSettings;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -12,7 +13,12 @@ public class GitBashDiffAction extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent event) {
         var gitBashRuns = Common.gitBashRunner;
         if (gitBashRuns == null) return;
-        Common.assetGitBashPath(event.getProject(), project -> {
+
+        boolean canRun = true;
+        if(gitBashRuns instanceof IWindowGitBashRuns) {
+            canRun = ((IWindowGitBashRuns) gitBashRuns).checkIfCanRun(event.getProject());
+        }
+        if (canRun) {
             var bean = Common.findClosestGitRoot(event);
             if (bean != null) {
                 if (bean instanceof PathInfo) {
@@ -22,7 +28,7 @@ public class GitBashDiffAction extends AnAction {
                     gitBashRuns.runGitBash(bean.path);
                 }
             }
-        });
+        }
     }
 
     @Override

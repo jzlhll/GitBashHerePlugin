@@ -33,7 +33,7 @@ public class GitBashCopyNameAction extends AnAction {
 
             Logger.sendNotification("copied success! " + name, event, NotificationType.INFORMATION);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
     }

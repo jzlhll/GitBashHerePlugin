@@ -5,7 +5,6 @@ import com.allan.openhereplugin.bean.IGitBashRuns;
 import java.io.IOException;
 
 public class CommonGitBashMacRuns implements IGitBashRuns {
-
     @Override
     public String system() {
         return Common.SYSTEM_MAC;

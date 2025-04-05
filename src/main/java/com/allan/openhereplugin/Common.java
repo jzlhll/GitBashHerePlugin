@@ -3,8 +3,6 @@ package com.allan.openhereplugin;
 import com.allan.openhereplugin.bean.*;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,39 +27,6 @@ public final class Common {
             return SYSTEM_MAC;
         }
         return null;
-    }
-
-    public static void assetGitBashPath(Project project, IFindGitBashPathCallback callback) {
-        if (project == null) {
-            return;
-        }
-
-        var gitBashRuns = gitBashRunner;
-        if (gitBashRuns == null) {
-            return;
-        }
-
-        if (gitBashRuns instanceof IWindowRuns) {
-            switch (((IWindowRuns) gitBashRuns).findPathExe().first) {
-                case "notWin": {
-                    int txt = Messages.showOkCancelDialog("Message", "Not support linux/mac.", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
-                    Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-                    return;
-                }
-                case "no": {
-                    int txt = Messages.showOkCancelDialog("Message", "Cannot found git-bash.exe path, please custom your path in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
-                    Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-                    return;
-                }
-                case "customError": {
-                    int txt = Messages.showOkCancelDialog("Message", "Custom path is not a file. Please check it in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
-                    Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-                    return;
-                }
-            }
-        }
-
-        callback.action(project);
     }
 
     @Nullable

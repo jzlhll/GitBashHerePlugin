@@ -1,6 +1,8 @@
 package com.allan.openhereplugin.bean;
 
-public interface IWindowRuns {
+import com.intellij.openapi.project.Project;
+
+public interface IWindowGitBashRuns {
     /**
      * 结合custom和系统找到的路径
      */
@@ -10,4 +12,6 @@ public interface IWindowRuns {
      * 自己找到的工具path
      */
     String origPathExe();
+
+    boolean checkIfCanRun(Project project);
 }

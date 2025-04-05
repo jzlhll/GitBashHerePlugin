@@ -1,5 +1,6 @@
 package com.allan.openhereplugin;
 
+import com.allan.openhereplugin.bean.IWindowGitBashRuns;
 import com.allan.openhereplugin.bean.PathInfo;
 import com.allan.openhereplugin.config.GitOpenHereSettings;
 import com.allan.openhereplugin.util.Logger;
@@ -21,7 +22,11 @@ public class GitBashStatusAction extends AnAction {
             var log = Logger.cacheFetchAndClear();
             Logger.sendNotification(log, event, NotificationType.INFORMATION);
         } else {
-            Common.assetGitBashPath(event.getProject(), project -> {
+            boolean canRun = true;
+            if(gitBashRuns instanceof IWindowGitBashRuns) {
+                canRun = ((IWindowGitBashRuns) gitBashRuns).checkIfCanRun(event.getProject());
+            }
+            if (canRun) {
                 var bean = Common.findClosestGitRoot(event);
                 if (bean != null) {
                     if (bean instanceof PathInfo) {
@@ -31,7 +36,7 @@ public class GitBashStatusAction extends AnAction {
                         gitBashRuns.runGitBash(bean.path);
                     }
                 }
-            });
+            }
         }
     }
 

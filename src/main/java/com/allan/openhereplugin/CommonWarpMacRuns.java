@@ -3,7 +3,6 @@ package com.allan.openhereplugin;
 import com.allan.openhereplugin.bean.IWarpRuns;
 
 public class CommonWarpMacRuns implements IWarpRuns {
-
     @Override
     public String system() {
         return Common.SYSTEM_MAC;

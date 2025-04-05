@@ -1,9 +1,11 @@
 package com.allan.openhereplugin;
 
 import com.allan.openhereplugin.bean.IGitBashRuns;
-import com.allan.openhereplugin.bean.IWindowRuns;
+import com.allan.openhereplugin.bean.IWindowGitBashRuns;
 import com.allan.openhereplugin.bean.Pair;
 import com.allan.openhereplugin.config.GitOpenHereSettings;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +15,32 @@ import java.nio.file.Path;
 import static com.allan.openhereplugin.Common.*;
 import static com.allan.openhereplugin.util.Util.kot;
 
-public class CommonGitBashRuns implements IGitBashRuns, IWindowRuns {
+public class CommonGitBashRuns implements IGitBashRuns, IWindowGitBashRuns {
     static final String NOT_FOUND_GITBASH_PATH = "-no-found-git-bash";
 
     private String origGitToolExePath;
+
+    @Override
+    public boolean checkIfCanRun(Project project) {
+        switch (findPathExe().first) {
+            case "notWin": {
+                int txt = Messages.showOkCancelDialog("Message", "Not support linux/mac.", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
+                Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
+                return false;
+            }
+            case "no": {
+                int txt = Messages.showOkCancelDialog("Message", "Cannot found git-bash.exe path, please custom your path in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
+                Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
+                return false;
+            }
+            case "customError": {
+                int txt = Messages.showOkCancelDialog("Message", "Custom path is not a file. Please check it in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
+                Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public String origPathExe() {
