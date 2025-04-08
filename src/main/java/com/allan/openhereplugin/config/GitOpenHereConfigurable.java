@@ -20,6 +20,8 @@ public class GitOpenHereConfigurable implements Configurable {
 
     private JCheckBox copyNameCheckBox;
     private JCheckBox copyNameNoExtensionCheckBox;
+    private JCheckBox windowCmdCheckBox;
+    private JCheckBox windowUsePowerShellCheckBox;
 
     private JCheckBox gitBashCheckbox;
     private JCheckBox warpCheckbox;
@@ -44,22 +46,34 @@ public class GitOpenHereConfigurable implements Configurable {
             mainPanel.add(Box.createVerticalStrut(12));
         }
 
+
         addCheckboxRow("Hide options: git status",
-                gitStatusCheckBox = new JCheckBox(), true);
+                gitStatusCheckBox = new JCheckBox(), true, true);
         addCheckboxRow("Hide options: git diff",
-                gitDiffCheckBox = new JCheckBox(), true);
+                gitDiffCheckBox = new JCheckBox(), true, true);
         addCheckboxRow("Hide options: git log",
-                gitLogCheckBox = new JCheckBox(), true);
+                gitLogCheckBox = new JCheckBox(), true, true);
+        sperator();
+
+        //warp
+        addCheckboxRow("Enable ‘Warp’", warpCheckbox = new JCheckBox(), true);
+//        addCheckboxRow("Hide options: warp tab",
+//                warpTabCheckBox = new JCheckBox(), true);
+        sperator();
+
+        //window cmd
+        if (Common.SYSTEM_WINDOWS.equals(Common.supportSystem())) {
+            addCheckboxRow("Enable ‘Windows cmd’ (Directly to directory not git root)", windowCmdCheckBox = new JCheckBox(), false);
+            addCheckboxRow("Instead with PowerShell", windowUsePowerShellCheckBox = new JCheckBox(), false, true);
+            sperator();
+        }
+
+        //copy options
         addCheckboxRow("Hide options: copy name",
                 copyNameCheckBox = new JCheckBox(), true);
         addCheckboxRow("Hide options: copy name no extension",
                 copyNameNoExtensionCheckBox = new JCheckBox(), true);
-
         sperator();
-        //warp
-        addCheckboxRow("Enable ‘Warp’", warpCheckbox = new JCheckBox(), false);
-//        addCheckboxRow("Hide options: warp tab",
-//                warpTabCheckBox = new JCheckBox(), true);
 
         mainPanel.add(Box.createVerticalStrut(12));
         return mainPanel;
@@ -82,14 +96,32 @@ public class GitOpenHereConfigurable implements Configurable {
         }
 
         var editSame = exePathTextField == null || exePathTextField.getText().equals(state.gitBashCustomPath);
+        var isWindowCmdSame = isIsWindowCmdSame(state);
+
         return !editSame ||
                 gitStatusCheckBox.isSelected() != state.isGitStatusChecked ||
                 gitDiffCheckBox.isSelected() != state.isGitDiffChecked ||
                 gitLogCheckBox.isSelected() != state.isGitLogChecked ||
                // warpTabCheckBox.isSelected() != state.isWarpTabChecked ||
                 copyNameNoExtensionCheckBox.isSelected() != state.isCopyNameNoExChecked ||
+                !isWindowCmdSame ||
                 copyNameCheckBox.isSelected() != state.isCopyNameChecked ||
                 type != state.gitToolType;
+    }
+
+    private boolean isIsWindowCmdSame(GitOpenHereSettings.State state) {
+        var isWindowCmdSame = true;
+        if (windowCmdCheckBox != null) {
+            int windowCmdType;
+            if (windowCmdCheckBox.isSelected()) {
+                windowCmdType = windowUsePowerShellCheckBox.isSelected() ? GitOpenHereSettings.WINDOW_CMD_TYPE_POWER_CMD : GitOpenHereSettings.WINDOW_CMD_TYPE_CMD;
+            } else {
+                windowCmdType = GitOpenHereSettings.WINDOW_CMD_TYPE_NO;
+            }
+
+            isWindowCmdSame = windowCmdType == state.windowCmdType;
+        }
+        return isWindowCmdSame;
     }
 
     @Override
@@ -102,6 +134,15 @@ public class GitOpenHereConfigurable implements Configurable {
         state.isGitLogChecked = gitLogCheckBox.isSelected();
       //  state.isWarpTabChecked = warpTabCheckBox.isSelected();
         state.isCopyNameNoExChecked = copyNameNoExtensionCheckBox.isSelected();
+        if (windowCmdCheckBox != null && windowUsePowerShellCheckBox != null) {
+            int windowCmdType;
+            if (windowCmdCheckBox.isSelected()) {
+                windowCmdType = windowUsePowerShellCheckBox.isSelected() ? GitOpenHereSettings.WINDOW_CMD_TYPE_POWER_CMD : GitOpenHereSettings.WINDOW_CMD_TYPE_CMD;
+            } else {
+                windowCmdType = GitOpenHereSettings.WINDOW_CMD_TYPE_NO;
+            }
+            state.windowCmdType = windowCmdType;
+        }
         state.isCopyNameChecked = copyNameCheckBox.isSelected();
 
         var enable1 = gitBashCheckbox.isSelected();
@@ -130,6 +171,8 @@ public class GitOpenHereConfigurable implements Configurable {
       //  warpTabCheckBox.setSelected(state.isWarpTabChecked);
         copyNameCheckBox.setSelected(state.isCopyNameChecked);
         copyNameNoExtensionCheckBox.setSelected(state.isCopyNameNoExChecked);
+        if(windowCmdCheckBox != null) windowCmdCheckBox.setSelected(state.windowCmdType > 0);
+        if(windowUsePowerShellCheckBox != null) windowUsePowerShellCheckBox.setSelected(state.windowCmdType == GitOpenHereSettings.WINDOW_CMD_TYPE_POWER_CMD);
 
         gitBashCheckbox.setSelected(state.gitToolType == 0 || state.gitToolType == 2);
         warpCheckbox.setSelected(state.gitToolType == 1 || state.gitToolType == 2);
@@ -165,9 +208,17 @@ public class GitOpenHereConfigurable implements Configurable {
     }
 
     private void addCheckboxRow(String title, JCheckBox checkBox, Boolean hasVertPadding) {
+        addCheckboxRow(title, checkBox, hasVertPadding, false);
+    }
+
+    private void addCheckboxRow(String title, JCheckBox checkBox, Boolean hasVertPadding, Boolean needLeftPadding) {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+
+        if (needLeftPadding) {
+            panel.add(Box.createHorizontalStrut(16)); // 16像素的左侧间距，可根据需要调整
+        }
 
         // 复选框对齐优化
         checkBox.setAlignmentY(Component.CENTER_ALIGNMENT); // 避免垂直居中

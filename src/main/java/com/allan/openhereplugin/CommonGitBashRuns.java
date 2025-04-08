@@ -48,11 +48,6 @@ public class CommonGitBashRuns implements IGitBashRuns, IWindowGitBashRuns {
     }
 
     @Override
-    public String system() {
-        return SYSTEM_WINDOWS;
-    }
-
-    @Override
     public Pair findPathExe() {
         if (GitOpenHereSettings.getInstance().getState().gitToolType == 0) {
             var customPath = GitOpenHereSettings.getInstance().getState().gitBashCustomPath;

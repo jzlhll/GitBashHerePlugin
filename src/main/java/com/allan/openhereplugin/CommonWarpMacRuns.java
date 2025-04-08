@@ -3,11 +3,6 @@ package com.allan.openhereplugin;
 import com.allan.openhereplugin.bean.IWarpRuns;
 
 public class CommonWarpMacRuns implements IWarpRuns {
-    @Override
-    public String system() {
-        return Common.SYSTEM_MAC;
-    }
-
     private void runGotoNewWindow(String targetDir) {
         try {
             String warpUrl = "warp://action/new_window?path=" + targetDir;

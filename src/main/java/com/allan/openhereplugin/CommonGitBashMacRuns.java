@@ -5,11 +5,6 @@ import com.allan.openhereplugin.bean.IGitBashRuns;
 import java.io.IOException;
 
 public class CommonGitBashMacRuns implements IGitBashRuns {
-    @Override
-    public String system() {
-        return Common.SYSTEM_MAC;
-    }
-
     private void runOnlyCd(String targetDirectory) {
         try {
             // 使用 osascript 执行 AppleScript 命令

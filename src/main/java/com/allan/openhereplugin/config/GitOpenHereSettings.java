@@ -12,6 +12,10 @@ public class GitOpenHereSettings implements PersistentStateComponent<GitOpenHere
     public static final int GIT_TOOL_TYPE_BASH = 0;
     public static final int GIT_TOOL_TYPE_WARP = 1;
 
+    public static final int WINDOW_CMD_TYPE_CMD = 1;
+    public static final int WINDOW_CMD_TYPE_POWER_CMD = 2;
+    public static final int WINDOW_CMD_TYPE_NO = 0;
+
     private State state = new State();
 
     public boolean isSupportBash() {
@@ -37,6 +41,8 @@ public class GitOpenHereSettings implements PersistentStateComponent<GitOpenHere
         public boolean isGitLogChecked = false;
         public boolean isCopyNameChecked = false;
         public boolean isCopyNameNoExChecked = false;
+
+        public int windowCmdType = WINDOW_CMD_TYPE_CMD;
 
         public int gitToolType = GIT_TOOL_TYPE_BASH;
     }
