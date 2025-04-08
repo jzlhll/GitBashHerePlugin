@@ -22,10 +22,10 @@
     • Support: 'warp' new tab! <br/>
     • Direct directory opening in cmd/PowerShell on Windows.<br/>
     <br/>
-    <b>Usage</b>, Right-click any:
-    • Project/directory/file
-    • Or in editor
-    Select <b>Git Here:</> at bottom, <br/>
+    <b>Usage</b>, Right-click any: <br/>
+    • Project/directory/file <br/>
+    • Or in editor <br/>
+    Select <b>Git Here:</b> at bottom, <br/>
     opens in Git Bash/Terminal/Warp.  <br/>
 
     <b>Windows Tip:</b> Can't find git-bash.exe? Custom path in Settings. <br/>
