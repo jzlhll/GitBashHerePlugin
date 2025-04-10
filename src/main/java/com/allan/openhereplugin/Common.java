@@ -11,6 +11,10 @@ import java.io.File;
 public final class Common {
     @Nullable
     public static final IGitBashRuns gitBashRunner = IGitBashRuns.create();
+    public static boolean isWindow() {
+        return gitBashRunner instanceof IWindowGitBashRuns;
+    }
+
     public static final IWarpRuns warpRunner = IWarpRuns.create();
 
     public static final String SYSTEM_WINDOWS = "win";

@@ -54,6 +54,8 @@ public class WindowCmdAction extends AnAction {
     @Override
     public void update(@NotNull AnActionEvent e) {
         super.update(e);
-        e.getPresentation().setVisible(GitOpenHereSettings.getInstance().getState().windowCmdType != GitOpenHereSettings.WINDOW_CMD_TYPE_NO);
+        var state = GitOpenHereSettings.getInstance().getState();
+        boolean v = Common.isWindow() && state.windowCmdType != GitOpenHereSettings.WINDOW_CMD_TYPE_NO;
+        e.getPresentation().setVisible(v);
     }
 }
