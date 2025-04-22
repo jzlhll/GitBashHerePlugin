@@ -1,7 +1,7 @@
 package com.allan.openhereplugin.config;
 
 import com.allan.openhereplugin.Common;
-import com.allan.openhereplugin.bean.IWindowGitBashRuns;
+import com.allan.openhereplugin.runs.abs.IWindowGitBashRuns;
 import com.intellij.openapi.options.Configurable;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;

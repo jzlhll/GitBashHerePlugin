@@ -1,10 +1,16 @@
-package com.allan.openhereplugin;
+package com.allan.openhereplugin.runs.mac;
 
-import com.allan.openhereplugin.bean.IGitBashRuns;
+import com.allan.openhereplugin.runs.abs.IGitBashRuns;
+import com.intellij.openapi.project.Project;
 
 import java.io.IOException;
 
-public class CommonGitBashMacRuns implements IGitBashRuns {
+public class GitBashMacRuns implements IGitBashRuns {
+    @Override
+    public boolean checkIfCanRun(Project project) {
+        return true;
+    }
+
     private void runOnlyCd(String targetDirectory) {
         try {
             // 使用 osascript 执行 AppleScript 命令

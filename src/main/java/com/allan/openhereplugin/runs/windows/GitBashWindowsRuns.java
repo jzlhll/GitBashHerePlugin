@@ -1,7 +1,7 @@
-package com.allan.openhereplugin;
+package com.allan.openhereplugin.runs.windows;
 
-import com.allan.openhereplugin.bean.IGitBashRuns;
-import com.allan.openhereplugin.bean.IWindowGitBashRuns;
+import com.allan.openhereplugin.runs.abs.IGitBashRuns;
+import com.allan.openhereplugin.runs.abs.IWindowGitBashRuns;
 import com.allan.openhereplugin.bean.Pair;
 import com.allan.openhereplugin.config.GitOpenHereSettings;
 import com.intellij.openapi.project.Project;
@@ -12,10 +12,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static com.allan.openhereplugin.Common.*;
 import static com.allan.openhereplugin.util.Util.kot;
 
-public class CommonGitBashRuns implements IGitBashRuns, IWindowGitBashRuns {
+public class GitBashWindowsRuns implements IGitBashRuns, IWindowGitBashRuns {
     static final String NOT_FOUND_GITBASH_PATH = "-no-found-git-bash";
 
     private String origGitToolExePath;

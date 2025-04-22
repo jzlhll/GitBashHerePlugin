@@ -1,8 +1,8 @@
-package com.allan.openhereplugin.bean;
+package com.allan.openhereplugin.runs.abs;
 
 import com.allan.openhereplugin.Common;
-import com.allan.openhereplugin.CommonGitBashMacRuns;
-import com.allan.openhereplugin.CommonGitBashRuns;
+import com.allan.openhereplugin.runs.mac.GitBashMacRuns;
+import com.allan.openhereplugin.runs.windows.GitBashWindowsRuns;
 
 import javax.annotation.Nullable;
 
@@ -16,10 +16,10 @@ public interface IGitBashRuns extends IRuns{
     static IGitBashRuns create() {
         var sys = Common.supportSystem();
         if (Common.SYSTEM_MAC.equals(sys)) {
-            return new CommonGitBashMacRuns();
+            return new GitBashMacRuns();
         }
         if (Common.SYSTEM_WINDOWS.equals(sys)) {
-            return new CommonGitBashRuns();
+            return new GitBashWindowsRuns();
         }
         return null;
     }

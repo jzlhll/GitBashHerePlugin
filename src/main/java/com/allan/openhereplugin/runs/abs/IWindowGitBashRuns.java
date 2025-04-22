@@ -1,6 +1,6 @@
-package com.allan.openhereplugin.bean;
+package com.allan.openhereplugin.runs.abs;
 
-import com.intellij.openapi.project.Project;
+import com.allan.openhereplugin.bean.Pair;
 
 public interface IWindowGitBashRuns {
     /**
@@ -12,6 +12,4 @@ public interface IWindowGitBashRuns {
      * 自己找到的工具path
      */
     String origPathExe();
-
-    boolean checkIfCanRun(Project project);
 }

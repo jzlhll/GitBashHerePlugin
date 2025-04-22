@@ -1,6 +1,5 @@
 package com.allan.openhereplugin;
 
-import com.allan.openhereplugin.bean.IWindowGitBashRuns;
 import com.allan.openhereplugin.bean.PathInfo;
 import com.allan.openhereplugin.config.GitOpenHereSettings;
 import com.allan.openhereplugin.util.Logger;
@@ -11,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class GitBashStatusAction extends AnAction {
 
-    private static final boolean USE_4_DEBUG_LOG = false;
+    private static final boolean USE_4_DEBUG_LOG = true;
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
@@ -22,10 +21,7 @@ public class GitBashStatusAction extends AnAction {
             var log = Logger.cacheFetchAndClear();
             Logger.sendNotification(log, event, NotificationType.INFORMATION);
         } else {
-            boolean canRun = true;
-            if(gitBashRuns instanceof IWindowGitBashRuns) {
-                canRun = ((IWindowGitBashRuns) gitBashRuns).checkIfCanRun(event.getProject());
-            }
+            boolean canRun = gitBashRuns.checkIfCanRun(event.getProject());
             if (canRun) {
                 var bean = Common.findClosestGitRoot(event);
                 if (bean != null) {
