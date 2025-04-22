@@ -13,8 +13,7 @@ public class GitBashAction extends AnAction {
         var gitBashRuns = Common.gitBashRunner;
         if (gitBashRuns == null) return;
 
-        boolean canRun = gitBashRuns.checkIfCanRun(event.getProject());
-        if (canRun) {
+        gitBashRuns.checkIfCanRun(event.getProject(), () -> {
             var info = Common.findClosestGitRoot(event);
             if (info != null) {
                 if (info instanceof PathInfo) {
@@ -23,7 +22,7 @@ public class GitBashAction extends AnAction {
                     gitBashRuns.runGitBash(info.path);
                 }
             }
-        }
+        });
     }
 
     @Override

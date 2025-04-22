@@ -20,25 +20,25 @@ public class GitBashWindowsRuns implements IGitBashRuns, IWindowGitBashRuns {
     private String origGitToolExePath;
 
     @Override
-    public boolean checkIfCanRun(Project project) {
+    public void checkIfCanRun(Project project, Runnable canRunBlock) {
         switch (findPathExe().first) {
             case "notWin": {
                 int txt = Messages.showOkCancelDialog("Message", "Not support linux/mac.", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
                 Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-                return false;
+                return;
             }
             case "no": {
                 int txt = Messages.showOkCancelDialog("Message", "Cannot found git-bash.exe path, please custom your path in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
                 Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-                return false;
+                return;
             }
             case "customError": {
                 int txt = Messages.showOkCancelDialog("Message", "Custom path is not a file. Please check it in Settings(or Other Settings).", Messages.getOkButton(), Messages.getCancelButton(), Messages.getInformationIcon());
                 Messages.showMessageDialog(project, String.valueOf(txt), "OK", Messages.getInformationIcon());
-                return false;
+                return;
             }
         }
-        return true;
+        canRunBlock.run();
     }
 
     @Override

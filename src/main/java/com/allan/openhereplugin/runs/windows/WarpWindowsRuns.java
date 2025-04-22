@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class WarpWindowsRuns implements IWarpRuns {
     @Override
-    public boolean checkIfCanRun(Project project) {
-        return true;
+    public void checkIfCanRun(Project project, Runnable canRunBlock) {
+        canRunBlock.run();
     }
 
     private static void runCommand(String command) {

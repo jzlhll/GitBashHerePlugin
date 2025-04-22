@@ -21,8 +21,7 @@ public class GitBashStatusAction extends AnAction {
             var log = Logger.cacheFetchAndClear();
             Logger.sendNotification(log, event, NotificationType.INFORMATION);
         } else {
-            boolean canRun = gitBashRuns.checkIfCanRun(event.getProject());
-            if (canRun) {
+            gitBashRuns.checkIfCanRun(event.getProject(), ()->{
                 var bean = Common.findClosestGitRoot(event);
                 if (bean != null) {
                     if (bean instanceof PathInfo) {
@@ -32,7 +31,7 @@ public class GitBashStatusAction extends AnAction {
                         gitBashRuns.runGitBash(bean.path);
                     }
                 }
-            }
+            });
         }
     }
 

@@ -4,9 +4,10 @@ import com.allan.openhereplugin.runs.abs.IWarpRuns;
 import com.intellij.openapi.project.Project;
 
 public class WarpMacRuns implements IWarpRuns {
+
     @Override
-    public boolean checkIfCanRun(Project project) {
-        return true;
+    public void checkIfCanRun(Project project, Runnable canRunBlock) {
+        canRunBlock.run();
     }
 
     private void runGotoNewWindow(String targetDir) {

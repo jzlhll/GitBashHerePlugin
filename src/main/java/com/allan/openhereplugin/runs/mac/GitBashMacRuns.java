@@ -6,9 +6,10 @@ import com.intellij.openapi.project.Project;
 import java.io.IOException;
 
 public class GitBashMacRuns implements IGitBashRuns {
+
     @Override
-    public boolean checkIfCanRun(Project project) {
-        return true;
+    public void checkIfCanRun(Project project, Runnable canRunBlock) {
+        canRunBlock.run();
     }
 
     private void runOnlyCd(String targetDirectory) {
