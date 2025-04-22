@@ -10,4 +10,9 @@ public class NoGitPathInfo {
      * self orig path
      */
     public String path;
+
+    @Override
+    public String toString() {
+        return "NoGitPathInfo: " + path;
+    }
 }

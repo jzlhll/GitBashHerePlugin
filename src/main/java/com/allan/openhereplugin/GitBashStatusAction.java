@@ -6,11 +6,14 @@ import com.allan.openhereplugin.util.Logger;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.ide.CopyPasteManager;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.datatransfer.StringSelection;
 
 public class GitBashStatusAction extends AnAction {
 
-    private static final boolean USE_4_DEBUG_LOG = true;
+    private static final boolean USE_4_DEBUG_LOG = false;
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
@@ -19,7 +22,8 @@ public class GitBashStatusAction extends AnAction {
 
         if (USE_4_DEBUG_LOG) {
             var log = Logger.cacheFetchAndClear();
-            Logger.sendNotification(log, event, NotificationType.INFORMATION);
+            CopyPasteManager.getInstance().setContents(new StringSelection(log));
+            Logger.sendNotification("Copy and clear logs!\n" + log, event, NotificationType.INFORMATION);
         } else {
             gitBashRuns.checkIfCanRun(event.getProject(), ()->{
                 var bean = Common.findClosestGitRoot(event);

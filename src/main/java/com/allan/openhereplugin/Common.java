@@ -1,11 +1,14 @@
 package com.allan.openhereplugin;
 
-import com.allan.openhereplugin.bean.*;
+import com.allan.openhereplugin.bean.NoGitPathInfo;
+import com.allan.openhereplugin.bean.PathInfo;
 import com.allan.openhereplugin.runs.abs.IGitBashRuns;
 import com.allan.openhereplugin.runs.abs.IWarpRuns;
 import com.allan.openhereplugin.runs.abs.IWindowGitBashRuns;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,6 +39,12 @@ public final class Common {
         return null;
     }
 
+    static NoGitPathInfo findHere() {
+        Project project = ProjectManager.getInstance().getOpenProjects()[0];
+        String basePath = project.getBasePath();  // 返回工程根目录绝对路径
+        return getPathInfo(basePath);
+    }
+
     @Nullable
     static NoGitPathInfo findClosestGitRoot(@Nonnull AnActionEvent event) {
         var thisFile = event.getDataContext().getData(PlatformDataKeys.VIRTUAL_FILE);
@@ -44,6 +53,18 @@ public final class Common {
             return null;
         }
         var thisFileStr = thisFile.toString().replace("file://", "");
+        return getPathInfo(thisFileStr);
+    }
+
+    static NoGitPathInfo findClosestGitRootElseHere(@Nonnull AnActionEvent event) {
+        var info = findClosestGitRoot(event);
+        if (info == null) {
+            info = findHere();
+        }
+        return info;
+    }
+
+    private static NoGitPathInfo getPathInfo(String thisFileStr) {
         var file = new File(thisFileStr);
         String dir = "";
         if (file.exists() && file.isFile()) {
@@ -70,7 +91,6 @@ public final class Common {
         p.path = thisFileStr;
         p.relativePath = isCut ? thisFileStr.substring(dir.length() + 1) : thisFileStr;
         p.gitPath = dir;
-        p.isFileOrDirectory = file.isFile();
 
         return p;
     }

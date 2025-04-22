@@ -14,7 +14,7 @@ public class GitBashAction extends AnAction {
         if (gitBashRuns == null) return;
 
         gitBashRuns.checkIfCanRun(event.getProject(), () -> {
-            var info = Common.findClosestGitRoot(event);
+            var info = Common.findClosestGitRootElseHere(event);
             if (info != null) {
                 if (info instanceof PathInfo) {
                     gitBashRuns.runGitBash(((PathInfo) info).gitPath);

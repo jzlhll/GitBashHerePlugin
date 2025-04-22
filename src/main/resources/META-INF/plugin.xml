@@ -24,8 +24,8 @@
     <br/>
     <b>Usage</b>, Right-click any: <br/>
     • Project/directory/file <br/>
-    • Or in editor <br/>
-    • Or in editor tab <br/>
+    • in editor <br/>
+    • in editor tab [new!!!]<br/>
 
     Select <b>Git Here:</b> at bottom, <br/>
     opens in Git Bash/Terminal/Warp.  <br/>
@@ -79,7 +79,7 @@
             <action id="allan.githere_list_editor_log" class="com.allan.openhereplugin.GitBashLogAction" text = "git log"/>
             <action id="allan.githere_list_editor_warp_tab" class="com.allan.openhereplugin.WarpTabAction" text = "warp tab"/>
 
-            <action id="allan.githere_list_project_window_cmd" class="com.allan.openhereplugin.WindowCmdAction" text = "Window cmd"/>
+            <action id="allan.githere_list_editor_window_cmd" class="com.allan.openhereplugin.WindowCmdAction" text = "Window cmd"/>
 
             <action id="allan.githere_list_editor_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
             <action id="allan.githere_list_editor_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
@@ -87,11 +87,11 @@
 
         <group id="com.allan.githere_list_editor_tab" text="Git Here:" popup="true">
             <add-to-group group-id="EditorTabPopupMenu" anchor="after" relative-to-action="JsonPathEvaluateAction"/>
-            <action id="allan.githere_list_editor_tab_action" class="com.allan.openhereplugin.GitBashAction" text = "git bash"/>
-            <action id="allan.githere_list_editor_tab_warp_tab" class="com.allan.openhereplugin.WarpTabAction" text = "warp tab"/>
-            <action id="allan.githere_list_editor_tab_window_cmd" class="com.allan.openhereplugin.WindowCmdAction" text = "Window cmd"/>
-            <action id="allan.githere_list_editor_tab_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
-            <action id="allan.githere_list_editor_tab_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
+            <action id="allan.githere_list_ed_tab_action" class="com.allan.openhereplugin.GitBashAction" text = "git bash"/>
+            <action id="allan.githere_list_ed_tab_warp_tab" class="com.allan.openhereplugin.WarpTabAction" text = "warp tab"/>
+            <action id="allan.githere_list_ed_tab_window_cmd" class="com.allan.openhereplugin.WindowCmdAction" text = "Window cmd"/>
+            <action id="allan.githere_list_ed_tab_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
+            <action id="allan.githere_list_ed_tab_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
         </group>
     </actions>
 </idea-plugin>

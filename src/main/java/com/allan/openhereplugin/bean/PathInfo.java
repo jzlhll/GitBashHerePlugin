@@ -1,4 +1,7 @@
 package com.allan.openhereplugin.bean;
+
+import java.util.Locale;
+
 public class PathInfo extends NoGitPathInfo {
     public static final PathInfo EMPTY = new PathInfo();
 
@@ -12,8 +15,8 @@ public class PathInfo extends NoGitPathInfo {
      */
     public String relativePath;
 
-    /**
-     * true is file; false is directory. null is no file.
-     */
-    public Boolean isFileOrDirectory = null;
+    @Override
+    public String toString() {
+        return String.format(Locale.getDefault(), "PathInfo path: %s gitPath: %s relativePath: %s", path, gitPath, relativePath);
+    }
 }
