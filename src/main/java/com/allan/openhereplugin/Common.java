@@ -5,13 +5,15 @@ import com.allan.openhereplugin.bean.PathInfo;
 import com.allan.openhereplugin.runs.abs.IGitBashRuns;
 import com.allan.openhereplugin.runs.abs.IWarpRuns;
 import com.allan.openhereplugin.runs.abs.IWindowGitBashRuns;
+import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.io.File;
 
 public final class Common {
@@ -40,9 +42,15 @@ public final class Common {
     }
 
     static NoGitPathInfo findHere() {
-        Project project = ProjectManager.getInstance().getOpenProjects()[0];
-        String basePath = project.getBasePath();  // 返回工程根目录绝对路径
-        return getPathInfo(basePath);
+        Component focusOwner = java.awt.KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+        DataContext context = DataManager.getInstance().getDataContext(focusOwner);
+        Project currentProject = PlatformDataKeys.PROJECT.getData(context);
+        if (currentProject != null) {
+            String basePath = currentProject.getBasePath();  // 返回工程根目录绝对路径
+            return getPathInfo(basePath);
+        } else {
+            return null;
+        }
     }
 
     @Nullable
