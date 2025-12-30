@@ -1,10 +1,10 @@
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.12.0"
+    id("org.jetbrains.intellij") version "1.17.4"
 }
 
 group = "com.allan"
-version = "0.3.8"
+version = "0.3.9"
 
 repositories {
     mavenCentral()
@@ -27,7 +27,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("221")
-        untilBuild.set("251.*")
+        untilBuild.set("")
     }
 
     signPlugin {
