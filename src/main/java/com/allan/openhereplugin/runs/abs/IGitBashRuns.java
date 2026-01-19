@@ -11,6 +11,7 @@ public interface IGitBashRuns extends IRuns{
     void runGitDiff(String gitPath, String relativeFile);
     void runGitStatus(String gitPath, String relativeDir);
     void runGitLog(String gitPath, String relativeFile);
+    void runGitPush(String gitPath);
 
     @Nullable
     static IGitBashRuns create() {

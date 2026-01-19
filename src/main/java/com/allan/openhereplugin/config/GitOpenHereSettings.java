@@ -37,10 +37,12 @@ public class GitOpenHereSettings implements PersistentStateComponent<GitOpenHere
        // public boolean isWarpTabChecked = false;
 
         public boolean isGitStatusChecked = false;
-        public boolean isGitDiffChecked = false;
-        public boolean isGitLogChecked = false;
-        public boolean isCopyNameChecked = false;
+        public boolean isGitDiffChecked = true;
+        public boolean isGitLogChecked = true;
+        public boolean isCopyNameChecked = true;
         public boolean isCopyNameNoExChecked = false;
+
+        public boolean isGitPushChecked = true;
 
         public int windowCmdType = WINDOW_CMD_TYPE_CMD;
 

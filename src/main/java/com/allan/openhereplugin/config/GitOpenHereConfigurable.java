@@ -16,6 +16,7 @@ public class GitOpenHereConfigurable implements Configurable {
     private JCheckBox gitStatusCheckBox;
     private JCheckBox gitDiffCheckBox;
     private JCheckBox gitLogCheckBox;
+    private JCheckBox gitPushCheckBox;
     //private JCheckBox warpTabCheckBox;
 
     private JCheckBox copyNameCheckBox;
@@ -53,6 +54,9 @@ public class GitOpenHereConfigurable implements Configurable {
                 gitDiffCheckBox = new JCheckBox(), true, true);
         addCheckboxRow("Hide options: git log",
                 gitLogCheckBox = new JCheckBox(), true, true);
+        addCheckboxRow("Hide options: git push",
+                gitPushCheckBox = new JCheckBox(), true, true);
+
         sperator();
 
         //warp
@@ -102,6 +106,7 @@ public class GitOpenHereConfigurable implements Configurable {
                 gitStatusCheckBox.isSelected() != state.isGitStatusChecked ||
                 gitDiffCheckBox.isSelected() != state.isGitDiffChecked ||
                 gitLogCheckBox.isSelected() != state.isGitLogChecked ||
+                gitPushCheckBox.isSelected() != state.isGitPushChecked ||
                // warpTabCheckBox.isSelected() != state.isWarpTabChecked ||
                 copyNameNoExtensionCheckBox.isSelected() != state.isCopyNameNoExChecked ||
                 !isWindowCmdSame ||
@@ -132,6 +137,7 @@ public class GitOpenHereConfigurable implements Configurable {
         state.isGitStatusChecked = gitStatusCheckBox.isSelected();
         state.isGitDiffChecked = gitDiffCheckBox.isSelected();
         state.isGitLogChecked = gitLogCheckBox.isSelected();
+        state.isGitPushChecked = gitPushCheckBox.isSelected();
       //  state.isWarpTabChecked = warpTabCheckBox.isSelected();
         state.isCopyNameNoExChecked = copyNameNoExtensionCheckBox.isSelected();
         if (windowCmdCheckBox != null && windowUsePowerShellCheckBox != null) {
@@ -168,6 +174,7 @@ public class GitOpenHereConfigurable implements Configurable {
         gitStatusCheckBox.setSelected(state.isGitStatusChecked);
         gitDiffCheckBox.setSelected(state.isGitDiffChecked);
         gitLogCheckBox.setSelected(state.isGitLogChecked);
+        gitPushCheckBox.setSelected(state.isGitPushChecked);
       //  warpTabCheckBox.setSelected(state.isWarpTabChecked);
         copyNameCheckBox.setSelected(state.isCopyNameChecked);
         copyNameNoExtensionCheckBox.setSelected(state.isCopyNameNoExChecked);

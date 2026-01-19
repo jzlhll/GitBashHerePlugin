@@ -145,6 +145,11 @@ public class GitBashWindowsRuns implements IGitBashRuns, IWindowGitBashRuns {
     }
 
     @Override
+    public void runGitPush(String gitPath) {
+        runGitBashCmds(gitPath, new String[]{"git push"});
+    }
+
+    @Override
     public void runGitLog(String gitPath, String relativeFile) {
         runGitBashCmds(gitPath, new String[]{"git log " + relativeFile});
     }

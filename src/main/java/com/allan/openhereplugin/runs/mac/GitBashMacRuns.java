@@ -95,4 +95,9 @@ public class GitBashMacRuns implements IGitBashRuns {
     public void runGitLog(String gitPath, String relativeFile) {
         runCdAndCmd(gitPath, "git log " + relativeFile);
     }
+
+    @Override
+    public void runGitPush(String gitPath) {
+        runCdAndCmd(gitPath, "git push");
+    }
 }

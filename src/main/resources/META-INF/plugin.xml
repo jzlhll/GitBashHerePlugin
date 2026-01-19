@@ -18,14 +18,15 @@
 
     <b>Features:</b>
     • Cross-platform support for Windows/macOS!<br/>
-    • Customizable paths & hidden menu in Settings.<br/>
+    • Customizable paths & hidden menu in Settings → Other Settings.<br/>
     • Support: 'warp' new tab! <br/>
     • Direct directory opening in cmd/PowerShell on Windows.<br/>
     <br/>
     <b>Usage</b>, Right-click any: <br/>
     • Project/directory/file <br/>
     • in editor <br/>
-    • in editor tab [new!!!]<br/>
+    • in editor tab<br/>
+    • hide action that you needn't in Settings<br/>
 
     Select <b>Git Here:</b> at bottom, <br/>
     opens in Git Bash/Terminal/Warp.  <br/>
@@ -62,6 +63,8 @@
             <action id="allan.githere_list_project_status" class="com.allan.openhereplugin.GitBashStatusAction" text = "git status"/>
             <action id="allan.githere_list_project_diff" class="com.allan.openhereplugin.GitBashDiffAction" text = "git diff"/>
             <action id="allan.githere_list_project_log" class="com.allan.openhereplugin.GitBashLogAction" text = "git log"/>
+
+            <action id="allan.githere_list_project_push" class="com.allan.openhereplugin.GitBashPushAction" text = "git push"/>
 
             <action id="allan.githere_list_project_warp_tab" class="com.allan.openhereplugin.WarpTabAction" text = "warp tab"/>
 
