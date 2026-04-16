@@ -3,6 +3,7 @@ package com.allan.openhereplugin.config;
 import com.allan.openhereplugin.Common;
 import com.allan.openhereplugin.runs.abs.IWindowGitBashRuns;
 import com.intellij.openapi.options.Configurable;
+import com.intellij.ui.components.JBScrollPane;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
@@ -80,7 +81,10 @@ public class GitOpenHereConfigurable implements Configurable {
         sperator();
 
         mainPanel.add(Box.createVerticalStrut(12));
-        return mainPanel;
+
+        JBScrollPane scrollPane = new JBScrollPane(mainPanel);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // 移除默认边框，保持原有的视觉效果
+        return scrollPane;
     }
 
     @Override

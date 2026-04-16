@@ -32,9 +32,13 @@ public class Logger {
     }
 
     public static void sendNotification(String message, AnActionEvent event, NotificationType notificationType) {
+        sendNotification(message, event.getProject(), notificationType);
+    }
+
+    public static void sendNotification(String message, com.intellij.openapi.project.Project project, NotificationType notificationType) {
         NotificationGroupManager.getInstance()
                 .getNotificationGroup("com.allan.githere_notify")
                 .createNotification("GitBashHere", message, notificationType)
-                .notify(event.getProject());
+                .notify(project);
     }
 }

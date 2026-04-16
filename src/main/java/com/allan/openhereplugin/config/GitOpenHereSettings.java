@@ -41,6 +41,7 @@ public class GitOpenHereSettings implements PersistentStateComponent<GitOpenHere
         public boolean isGitLogChecked = true;
         public boolean isCopyNameChecked = true;
         public boolean isCopyNameNoExChecked = false;
+        public boolean isEnableGBOHIcon = true;
 
         public boolean isGitPushChecked = true;
 

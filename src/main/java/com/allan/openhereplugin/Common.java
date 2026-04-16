@@ -56,6 +56,11 @@ public final class Common {
     @Nullable
     static NoGitPathInfo findClosestGitRoot(@Nonnull AnActionEvent event) {
         var thisFile = event.getDataContext().getData(PlatformDataKeys.VIRTUAL_FILE);
+        return findClosestGitRoot(thisFile);
+    }
+
+    @Nullable
+    public static NoGitPathInfo findClosestGitRoot(@Nullable com.intellij.openapi.vfs.VirtualFile thisFile) {
         if (thisFile == null) {
             // 处理未找到 VirtualFile 的情况（例如弹出提示或日志）
             return null;

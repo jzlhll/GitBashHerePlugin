@@ -1,0 +1,14 @@
+# GitBashHerePlugin 开发规则
+
+- **无自动编译**：严禁自动运行构建/编译命令（如 `./gradlew build`），除非用户明确要求。
+- **编码风格**：优先使用 `var`；遵循 Java 标准命名；禁止空 `catch` 块（须记录日志或加注释）。
+- **组件复用**：
+  - **通知/日志**：弹窗用 `Logger.sendNotification`，后台用 `com.intellij.openapi.diagnostic.Logger`。
+  - **路径/Git 解析**：必须复用 `Common.findClosestGitRoot` 或 `Common.findClosestGitRootElseHere`。
+  - **剪贴板**：用 `CopyPasteManager.getInstance().setContents(...)`。
+  - **配置**：改动配置时须同步更新 `GitOpenHereSettings` (持久化) 和 `GitOpenHereConfigurable` (UI 面板)。
+- **插件 SDK**：
+  - 新增 `AnAction` 必须在 `plugin.xml` 的 `<actions>` 中注册。
+  - 在 `update()` 中用 `e.getPresentation().setVisible(...)` 控制菜单显隐。
+  - 用 `e.getDataContext().getData(PlatformDataKeys.XXX)` 获取上下文。
+- **性能**：禁止在 UI 线程 (EDT) 执行耗时 I/O 或阻塞性外部命令。

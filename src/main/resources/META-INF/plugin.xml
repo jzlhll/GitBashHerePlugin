@@ -17,6 +17,11 @@
     For developers who prefer to terminal over built-in Git tools in IDEA.<br/><br/>
 
     <b>Features:</b>
+    <b>• AI Programming Friendly!</b> <br/>
+    Select code to reveal the floating <i><font color='#B19CD9'>GB</font><font color='#90EE90'>O</font><font color='#B19CD9'>H</font></i>(GitBashOpenHere) icon, <br/>
+    click to copy, and paste into other IDEs like Cursor or Codex! <br/>
+    (Android engineers will understand the pain of switching IDEs). <br/>
+    You can turn it off in Settings, as shown in the picture.<br/>
     • Cross-platform support for Windows/macOS!<br/>
     • Customizable paths & hidden menu in Settings → Other Settings.<br/>
     • Support: 'warp' new tab! <br/>
@@ -38,6 +43,39 @@
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_a029e018-c693-48e3-a1e5-cc352e9405cf" alt="2">
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_46487e25-ed1b-43ca-9633-55002ad03787" alt="3">
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_ea7b94cd-4e61-4094-b7ef-a3f715f79aa0" alt="4">
+    <img src="https://newxxxx" alt="5">
+    <br/><br/>
+    <b>--- 中文说明 ---</b><br/><br/>
+    为更喜欢使用终端而不是IDEA内置Git工具的开发者提供。<br/><br/>
+
+    <b>功能特性：</b><br/>
+    <b>• AI编程的好帮手！</b><br/>
+    您可以通过选中代码过会儿弹出的小图标<i><font color='#B19CD9'>GB</font><font color='#90EE90'>O</font><font color='#B19CD9'>H</font></i>(GitBashOpenHere)，<br/>
+    点击后拷贝到其他的IDE，如Cursor, Codex等的对话中去，<br/>
+    方便您来回切IDE（尤其是Android工程师会懂我的）。<br/>
+    设置菜单追加了菜单，您可以选择关闭，如图所示。<br/>
+    • 支持Windows/macOS跨平台！<br/>
+    • 支持在 Settings → Other Settings 中自定义路径和隐藏不需要的菜单。<br/>
+    • 支持：在 'warp' 中打开新标签页！<br/>
+    • Windows下支持直接在cmd/PowerShell中打开目录。<br/>
+    <br/>
+    <b>使用说明</b>，右键点击任何：<br/>
+    • 项目/目录/文件<br/>
+    • 编辑器内部<br/>
+    • 编辑器标签页<br/>
+    • 可以在设置中隐藏不需要的菜单项<br/>
+    <br/>
+    在底部选择 <b>Git Here:</b>，<br/>
+    将在 Git Bash/Terminal/Warp 中打开。<br/>
+    <br/>
+    <b>Windows 提示：</b> 找不到 git-bash.exe？可以在设置中自定义路径。<br/>
+    <br/>
+    Enjoy it! <br/>
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_9eb4667c-537c-442a-8bda-346a53bc0d6a" alt="1">
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_a029e018-c693-48e3-a1e5-cc352e9405cf" alt="2">
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_46487e25-ed1b-43ca-9633-55002ad03787" alt="3">
+    <img src="https://plugins.jetbrains.com/files/21517/screenshot_ea7b94cd-4e61-4094-b7ef-a3f715f79aa0" alt="4">
+    <img src="https://newxxxx" alt="5">
     ]]></description>
 
     <!-- Product and plugin compatibility requirements.
@@ -54,7 +92,12 @@
         <!-- 注册持久化组件 -->
         <applicationService
                 serviceImplementation="com.allan.openhereplugin.config.GitOpenHereSettings"/>
+                
+        <postStartupActivity implementation="com.allan.openhereplugin.SelectionPopupInitializer"/>
     </extensions>
+
+    <applicationListeners>
+    </applicationListeners>
 
     <actions>
         <group id="com.allan.githere_list_project" text="Git Here:" popup="true">
