@@ -53,6 +53,10 @@ public class SelectionPopupListener implements SelectionListener {
     }
 
     private void handleSelectionChanged(Editor editor) {
+        if (!com.allan.openhereplugin.config.GitOpenHereSettings.getInstance().getState().isEnableGBOHIcon) {
+            return;
+        }
+
         Alarm alarm = alarms.computeIfAbsent(editor, e -> new Alarm(Alarm.ThreadToUse.POOLED_THREAD, com.intellij.openapi.project.ProjectManager.getInstance().getDefaultProject()));
 
         alarm.cancelAllRequests();

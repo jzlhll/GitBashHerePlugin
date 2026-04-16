@@ -22,6 +22,7 @@ public class GitOpenHereConfigurable implements Configurable {
 
     private JCheckBox copyNameCheckBox;
     private JCheckBox copyNameNoExtensionCheckBox;
+    private JCheckBox enableGBOHIconCheckBox;
     private JCheckBox windowCmdCheckBox;
     private JCheckBox windowUsePowerShellCheckBox;
 
@@ -78,6 +79,12 @@ public class GitOpenHereConfigurable implements Configurable {
                 copyNameCheckBox = new JCheckBox(), true);
         addCheckboxRow("Hide options: copy name no extension",
                 copyNameNoExtensionCheckBox = new JCheckBox(), true);
+        
+        sperator();
+
+        //AI coding GBOH option
+        addCheckboxRow("Enable floating GBOH icon for AI coding",
+                enableGBOHIconCheckBox = new JCheckBox(), true);
         sperator();
 
         mainPanel.add(Box.createVerticalStrut(12));
@@ -113,6 +120,7 @@ public class GitOpenHereConfigurable implements Configurable {
                 gitPushCheckBox.isSelected() != state.isGitPushChecked ||
                // warpTabCheckBox.isSelected() != state.isWarpTabChecked ||
                 copyNameNoExtensionCheckBox.isSelected() != state.isCopyNameNoExChecked ||
+                enableGBOHIconCheckBox.isSelected() != state.isEnableGBOHIcon ||
                 !isWindowCmdSame ||
                 copyNameCheckBox.isSelected() != state.isCopyNameChecked ||
                 type != state.gitToolType;
@@ -144,6 +152,7 @@ public class GitOpenHereConfigurable implements Configurable {
         state.isGitPushChecked = gitPushCheckBox.isSelected();
       //  state.isWarpTabChecked = warpTabCheckBox.isSelected();
         state.isCopyNameNoExChecked = copyNameNoExtensionCheckBox.isSelected();
+        state.isEnableGBOHIcon = enableGBOHIconCheckBox.isSelected();
         if (windowCmdCheckBox != null && windowUsePowerShellCheckBox != null) {
             int windowCmdType;
             if (windowCmdCheckBox.isSelected()) {
@@ -182,6 +191,7 @@ public class GitOpenHereConfigurable implements Configurable {
       //  warpTabCheckBox.setSelected(state.isWarpTabChecked);
         copyNameCheckBox.setSelected(state.isCopyNameChecked);
         copyNameNoExtensionCheckBox.setSelected(state.isCopyNameNoExChecked);
+        enableGBOHIconCheckBox.setSelected(state.isEnableGBOHIcon);
         if(windowCmdCheckBox != null) windowCmdCheckBox.setSelected(state.windowCmdType > 0);
         if(windowUsePowerShellCheckBox != null) windowUsePowerShellCheckBox.setSelected(state.windowCmdType == GitOpenHereSettings.WINDOW_CMD_TYPE_POWER_CMD);
 
