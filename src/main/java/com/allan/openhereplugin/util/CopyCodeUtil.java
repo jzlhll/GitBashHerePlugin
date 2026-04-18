@@ -43,6 +43,15 @@ public class CopyCodeUtil {
             int endLine = document.getLineNumber(selectionModel.getSelectionEnd()) + 1;
 
             String lineStr = startLine == endLine ? "Line" + startLine + ":" : "Line" + startLine + "-" + endLine + ":";
+            
+            boolean isSimpleCopy = com.allan.openhereplugin.config.GitOpenHereSettings.getInstance().getState().isGBOHSimpleCopyChecked;
+            if (isSimpleCopy) {
+                String fileName = vf != null ? vf.getName() : new java.io.File(path).getName();
+                String simpleCopyText = fileName + " " + (startLine == endLine ? "Line" + startLine : "Line" + startLine + "-Line" + endLine);
+                CopyPasteManager.getInstance().setContents(new StringSelection(simpleCopyText));
+                Logger.sendNotification("copied success! \n" + simpleCopyText, project, NotificationType.INFORMATION);
+                return;
+            }
 
             StringBuilder sb = new StringBuilder();
             sb.append(path).append("\n");

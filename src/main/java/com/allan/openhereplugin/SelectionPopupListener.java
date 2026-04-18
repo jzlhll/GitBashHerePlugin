@@ -49,11 +49,22 @@ public class SelectionPopupListener implements SelectionListener {
         if (editor.getProject() == null || editor.getDocument() == null) {
             return;
         }
+        
+        // 过滤掉非代码主编辑器的弹窗（例如：搜索框、终端、日志控制台、Diff 视图等）
+        if (editor.isOneLineMode()) {
+            return;
+        }
+        
+        VirtualFile vf = FileDocumentManager.getInstance().getFile(editor.getDocument());
+        if (vf == null || !vf.isInLocalFileSystem()) {
+            return;
+        }
+
         handleSelectionChanged(editor);
     }
 
     private void handleSelectionChanged(Editor editor) {
-        if (!com.allan.openhereplugin.config.GitOpenHereSettings.getInstance().getState().isEnableGBOHIcon) {
+        if (!com.allan.openhereplugin.config.GitOpenHereSettings.getInstance().getState().isGBOHFloatingIconEnabled) {
             return;
         }
 
@@ -166,12 +177,12 @@ public class SelectionPopupListener implements SelectionListener {
 
         Point point = editor.visualPositionToXY(editor.offsetToVisualPosition(topRightOffset));
         
-        // 限制弹出的 X 坐标（限制在编辑器视口可视区域宽度的 30% 到 60% 之间）
+        // 限制弹出的 X 坐标（限制在编辑器视口可视区域宽度的 33% 到 38% 之间）
         int visibleWidth = editor.getScrollingModel().getVisibleArea().width;
         int scrollX = editor.getScrollingModel().getVisibleArea().x; // 当前横向滚动条的偏移量
         
-        int minAllowedX = scrollX + (int) (visibleWidth * 0.3);
-        int maxAllowedX = scrollX + (int) (visibleWidth * 0.6);
+        int minAllowedX = scrollX + (int) (visibleWidth * 0.33);
+        int maxAllowedX = scrollX + (int) (visibleWidth * 0.38);
         
         if (point.x < minAllowedX) {
             point.x = minAllowedX;

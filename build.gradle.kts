@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.allan"
-version = "0.5.0"
+version = "0.5.2"
 
 repositories {
     mavenCentral()
