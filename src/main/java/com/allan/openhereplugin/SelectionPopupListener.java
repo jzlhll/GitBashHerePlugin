@@ -176,25 +176,35 @@ public class SelectionPopupListener implements SelectionListener {
         }
 
         Point point = editor.visualPositionToXY(editor.offsetToVisualPosition(topRightOffset));
+        Rectangle visibleArea = editor.getScrollingModel().getVisibleArea();
+
+        // 限制弹出的 X 坐标（限制在编辑器视口可视区域宽度的 25% 到 30% 之间）
+        int visibleWidth = visibleArea.width;
+        int scrollX = visibleArea.x; // 当前横向滚动条的偏移量
         
-        // 限制弹出的 X 坐标（限制在编辑器视口可视区域宽度的 33% 到 38% 之间）
-        int visibleWidth = editor.getScrollingModel().getVisibleArea().width;
-        int scrollX = editor.getScrollingModel().getVisibleArea().x; // 当前横向滚动条的偏移量
-        
-        int minAllowedX = scrollX + (int) (visibleWidth * 0.33);
-        int maxAllowedX = scrollX + (int) (visibleWidth * 0.38);
+        int minAllowedX = scrollX + (int) (visibleWidth * 0.25);
+        int maxAllowedX = scrollX + (int) (visibleWidth * 0.30);
         
         if (point.x < minAllowedX) {
             point.x = minAllowedX;
         } else if (point.x > maxAllowedX) {
             point.x = maxAllowedX;
         }
+
+        // 限制弹出的 Y 坐标，保证选区在可视区域外时图标仍然可见。
+        int minAllowedY = visibleArea.y;
+        int maxAllowedY = visibleArea.y + Math.max(visibleArea.height - editor.getLineHeight(), 0);
+        if (point.y < minAllowedY) {
+            point.y = minAllowedY;
+        } else if (point.y > maxAllowedY) {
+            point.y = maxAllowedY;
+        }
         
         // 将编辑器坐标转换为屏幕坐标
         SwingUtilities.convertPointToScreen(point, editor.getContentComponent());
         
-        // 将图标定位到右上角：向右偏移一点，向上偏移一个行高避免遮挡第一行代码
-        point.translate(5, -20);
+        // 将图标定位到右上角：向右偏移一点，并保持在编辑器可视区域内
+        point.translate(5, 0);
 
         currentPopup.showInScreenCoordinates(editor.getContentComponent(), point);
     }
