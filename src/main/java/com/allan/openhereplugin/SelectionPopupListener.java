@@ -4,9 +4,13 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.SelectionModel;
+import com.intellij.openapi.editor.event.VisibleAreaEvent;
+import com.intellij.openapi.editor.event.VisibleAreaListener;
 import com.intellij.openapi.editor.event.SelectionEvent;
 import com.intellij.openapi.editor.event.SelectionListener;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.fileEditor.FileEditorManagerEvent;
+import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
@@ -16,7 +20,9 @@ import com.intellij.util.Alarm;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.awt.AWTEvent;
 import java.awt.*;
+import java.awt.event.AWTEventListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -30,6 +36,9 @@ public class SelectionPopupListener implements SelectionListener {
     // Cache the UI components so we only create them ONCE per IDE session, not per editor/selection.
     private JPanel cachedPanel;
     private JBPopup currentPopup;
+    private Editor currentPopupEditor;
+    private final Map<Editor, VisibleAreaListener> visibleAreaListeners = new HashMap<>();
+    private boolean windowFocusListenerRegistered = false;
 
     public static SelectionPopupListener getInstance() {
         return INSTANCE;
@@ -39,6 +48,20 @@ public class SelectionPopupListener implements SelectionListener {
         if (initialized) return;
         initialized = true;
         EditorFactory.getInstance().getEventMulticaster().addSelectionListener(this, ApplicationManager.getApplication());
+        registerWindowFocusListener();
+    }
+
+    public void init(@NotNull Project project) {
+        init();
+        project.getMessageBus().connect(project).subscribe(
+                FileEditorManagerListener.FILE_EDITOR_MANAGER,
+                new FileEditorManagerListener() {
+                    @Override
+                    public void selectionChanged(@NotNull FileEditorManagerEvent event) {
+                        hideCurrentPopup();
+                    }
+                }
+        );
     }
 
     private final Map<Editor, Alarm> alarms = new HashMap<>();
@@ -60,11 +83,13 @@ public class SelectionPopupListener implements SelectionListener {
             return;
         }
 
+        ensureEditorListeners(editor);
         handleSelectionChanged(editor);
     }
 
     private void handleSelectionChanged(Editor editor) {
         if (!com.allan.openhereplugin.config.GitOpenHereSettings.getInstance().getState().isGBOHFloatingIconEnabled) {
+            hideCurrentPopup();
             return;
         }
 
@@ -73,11 +98,7 @@ public class SelectionPopupListener implements SelectionListener {
         alarm.cancelAllRequests();
 
         // 隐藏当前可能存在的 popup (如果当前正显示着，先隐藏)
-        ApplicationManager.getApplication().invokeLater(() -> {
-            if (currentPopup != null && !currentPopup.isDisposed()) {
-                currentPopup.cancel();
-            }
-        });
+        hideCurrentPopup();
 
         SelectionModel selectionModel = editor.getSelectionModel();
         if (!selectionModel.hasSelection()) {
@@ -101,7 +122,7 @@ public class SelectionPopupListener implements SelectionListener {
                     showPopup(editor);
                 });
             });
-        }, 800);
+        }, 600);
     }
 
     private void showPopup(Editor editor) {
@@ -109,9 +130,7 @@ public class SelectionPopupListener implements SelectionListener {
             return;
         }
 
-        if (currentPopup != null && !currentPopup.isDisposed()) {
-            currentPopup.cancel();
-        }
+        hideCurrentPopup();
         
         if (cachedPanel == null) {
             // 全局只创建一次核心 UI
@@ -159,53 +178,147 @@ public class SelectionPopupListener implements SelectionListener {
                 .setFocusable(false)
                 .setRequestFocus(false)
                 .createPopup();
+        currentPopupEditor = editor;
+        Point point = calculatePopupScreenPoint(editor);
+        if (point == null) {
+            hideCurrentPopupImmediately();
+            return;
+        }
+        currentPopup.showInScreenCoordinates(editor.getContentComponent(), point);
+    }
 
-        // 计算显示位置（选中文本的右上角）
+    private void ensureEditorListeners(Editor editor) {
+        if (editor.isDisposed() || visibleAreaListeners.containsKey(editor)) {
+            return;
+        }
+
+        VisibleAreaListener listener = new VisibleAreaListener() {
+            @Override
+            public void visibleAreaChanged(@NotNull VisibleAreaEvent e) {
+                if (!e.getOldRectangle().equals(e.getNewRectangle())) {
+                    repositionCurrentPopupForEditor(editor);
+                }
+            }
+        };
+        editor.getScrollingModel().addVisibleAreaListener(listener);
+        visibleAreaListeners.put(editor, listener);
+    }
+
+    private synchronized void registerWindowFocusListener() {
+        if (windowFocusListenerRegistered) {
+            return;
+        }
+        windowFocusListenerRegistered = true;
+
+        AWTEventListener listener = event -> {
+            if (!(event instanceof java.awt.event.WindowEvent)) {
+                return;
+            }
+
+            var windowEvent = (java.awt.event.WindowEvent) event;
+            int eventId = windowEvent.getID();
+            if (eventId == java.awt.event.WindowEvent.WINDOW_DEACTIVATED
+                    || eventId == java.awt.event.WindowEvent.WINDOW_LOST_FOCUS) {
+                hideCurrentPopup();
+            }
+        };
+        Toolkit.getDefaultToolkit().addAWTEventListener(
+                listener,
+                AWTEvent.WINDOW_EVENT_MASK | AWTEvent.WINDOW_FOCUS_EVENT_MASK
+        );
+    }
+
+    private Point calculatePopupScreenPoint(Editor editor) {
+        if (editor.isDisposed() || !editor.getSelectionModel().hasSelection()) {
+            return null;
+        }
+
         SelectionModel selectionModel = editor.getSelectionModel();
         int selectionStart = selectionModel.getSelectionStart();
         int selectionEnd = selectionModel.getSelectionEnd();
-        
+
         int startLine = editor.getDocument().getLineNumber(selectionStart);
         int endLine = editor.getDocument().getLineNumber(selectionEnd);
-        
+        Rectangle visibleArea = editor.getScrollingModel().getVisibleArea();
+
+        int firstVisibleLine = editor.xyToLogicalPosition(new Point(visibleArea.x, visibleArea.y)).line;
+        int lastVisibleY = visibleArea.y + Math.max(visibleArea.height - editor.getLineHeight(), 0);
+        int lastVisibleLine = editor.xyToLogicalPosition(new Point(visibleArea.x, lastVisibleY)).line;
+
+        int visibleSelectionTopLine = Math.max(startLine, firstVisibleLine);
+        int visibleSelectionBottomLine = Math.min(endLine, lastVisibleLine);
+        if (visibleSelectionTopLine > visibleSelectionBottomLine) {
+            return null;
+        }
+
         int topRightOffset;
         if (startLine == endLine) {
             topRightOffset = selectionEnd;
+        } else if (visibleSelectionTopLine == endLine) {
+            topRightOffset = selectionEnd;
         } else {
-            topRightOffset = Math.min(editor.getDocument().getLineEndOffset(startLine), selectionEnd);
+            topRightOffset = editor.getDocument().getLineEndOffset(visibleSelectionTopLine);
         }
 
         Point point = editor.visualPositionToXY(editor.offsetToVisualPosition(topRightOffset));
-        Rectangle visibleArea = editor.getScrollingModel().getVisibleArea();
 
         // 限制弹出的 X 坐标（限制在编辑器视口可视区域宽度的 25% 到 30% 之间）
         int visibleWidth = visibleArea.width;
-        int scrollX = visibleArea.x; // 当前横向滚动条的偏移量
-        
+        int scrollX = visibleArea.x;
+
         int minAllowedX = scrollX + (int) (visibleWidth * 0.25);
         int maxAllowedX = scrollX + (int) (visibleWidth * 0.30);
-        
+
         if (point.x < minAllowedX) {
             point.x = minAllowedX;
         } else if (point.x > maxAllowedX) {
             point.x = maxAllowedX;
         }
 
-        // 限制弹出的 Y 坐标，保证选区在可视区域外时图标仍然可见。
         int minAllowedY = visibleArea.y;
-        int maxAllowedY = visibleArea.y + Math.max(visibleArea.height - editor.getLineHeight(), 0);
-        if (point.y < minAllowedY) {
-            point.y = minAllowedY;
-        } else if (point.y > maxAllowedY) {
-            point.y = maxAllowedY;
+        int maxAllowedY = lastVisibleY;
+        if (point.y < minAllowedY || point.y > maxAllowedY) {
+            return null;
         }
-        
-        // 将编辑器坐标转换为屏幕坐标
-        SwingUtilities.convertPointToScreen(point, editor.getContentComponent());
-        
-        // 将图标定位到右上角：向右偏移一点，并保持在编辑器可视区域内
-        point.translate(5, 0);
 
-        currentPopup.showInScreenCoordinates(editor.getContentComponent(), point);
+        SwingUtilities.convertPointToScreen(point, editor.getContentComponent());
+        point.translate(5, 0);
+        return point;
+    }
+
+    private void repositionCurrentPopupForEditor(Editor editor) {
+        ApplicationManager.getApplication().invokeLater(() -> {
+            if (currentPopupEditor != editor) {
+                return;
+            }
+            if (currentPopup == null || currentPopup.isDisposed()) {
+                currentPopup = null;
+                currentPopupEditor = null;
+                return;
+            }
+
+            Point point = calculatePopupScreenPoint(editor);
+            if (point == null) {
+                hideCurrentPopupImmediately();
+                return;
+            }
+            currentPopup.setLocation(point);
+        });
+    }
+
+    private void hideCurrentPopup() {
+        if (ApplicationManager.getApplication().isDispatchThread()) {
+            hideCurrentPopupImmediately();
+            return;
+        }
+        ApplicationManager.getApplication().invokeLater(this::hideCurrentPopupImmediately);
+    }
+
+    private void hideCurrentPopupImmediately() {
+        if (currentPopup != null && !currentPopup.isDisposed()) {
+            currentPopup.cancel();
+        }
+        currentPopup = null;
+        currentPopupEditor = null;
     }
 }

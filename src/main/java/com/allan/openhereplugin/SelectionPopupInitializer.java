@@ -7,6 +7,6 @@ import org.jetbrains.annotations.NotNull;
 public class SelectionPopupInitializer implements StartupActivity {
     @Override
     public void runActivity(@NotNull Project project) {
-        SelectionPopupListener.getInstance().init();
+        SelectionPopupListener.getInstance().init(project);
     }
 }
