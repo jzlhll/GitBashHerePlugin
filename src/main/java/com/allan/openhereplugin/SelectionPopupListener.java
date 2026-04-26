@@ -25,6 +25,7 @@ import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +40,7 @@ public class SelectionPopupListener implements SelectionListener {
     private Editor currentPopupEditor;
     private final Map<Editor, VisibleAreaListener> visibleAreaListeners = new HashMap<>();
     private boolean windowFocusListenerRegistered = false;
+    private boolean activeWindowListenerRegistered = false;
 
     public static SelectionPopupListener getInstance() {
         return INSTANCE;
@@ -49,6 +51,7 @@ public class SelectionPopupListener implements SelectionListener {
         initialized = true;
         EditorFactory.getInstance().getEventMulticaster().addSelectionListener(this, ApplicationManager.getApplication());
         registerWindowFocusListener();
+        registerActiveWindowListener();
     }
 
     public void init(@NotNull Project project) {
@@ -127,6 +130,9 @@ public class SelectionPopupListener implements SelectionListener {
 
     private void showPopup(Editor editor) {
         if (editor.isDisposed() || !editor.getSelectionModel().hasSelection()) {
+            return;
+        }
+        if (!isEditorWindowActive(editor)) {
             return;
         }
 
@@ -219,13 +225,34 @@ public class SelectionPopupListener implements SelectionListener {
             int eventId = windowEvent.getID();
             if (eventId == java.awt.event.WindowEvent.WINDOW_DEACTIVATED
                     || eventId == java.awt.event.WindowEvent.WINDOW_LOST_FOCUS) {
-                hideCurrentPopup();
+                hideCurrentPopupAndCancelRequests();
             }
         };
         Toolkit.getDefaultToolkit().addAWTEventListener(
                 listener,
                 AWTEvent.WINDOW_EVENT_MASK | AWTEvent.WINDOW_FOCUS_EVENT_MASK
         );
+    }
+
+    private synchronized void registerActiveWindowListener() {
+        if (activeWindowListenerRegistered) {
+            return;
+        }
+        activeWindowListenerRegistered = true;
+
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener("activeWindow", this::handleActiveWindowChanged);
+    }
+
+    private void handleActiveWindowChanged(PropertyChangeEvent event) {
+        if (event.getNewValue() == null) {
+            hideCurrentPopupAndCancelRequests();
+        }
+    }
+
+    private boolean isEditorWindowActive(Editor editor) {
+        Window editorWindow = SwingUtilities.getWindowAncestor(editor.getContentComponent());
+        Window activeWindow = KeyboardFocusManager.getCurrentKeyboardFocusManager().getActiveWindow();
+        return editorWindow != null && activeWindow != null && (editorWindow == activeWindow || activeWindow.getOwner() == editorWindow);
     }
 
     private Point calculatePopupScreenPoint(Editor editor) {
@@ -277,9 +304,7 @@ public class SelectionPopupListener implements SelectionListener {
 
         int minAllowedY = visibleArea.y;
         int maxAllowedY = lastVisibleY;
-        if (point.y < minAllowedY || point.y > maxAllowedY) {
-            return null;
-        }
+        point.y = Math.max(minAllowedY, Math.min(point.y, maxAllowedY));
 
         SwingUtilities.convertPointToScreen(point, editor.getContentComponent());
         point.translate(5, 0);
@@ -312,6 +337,11 @@ public class SelectionPopupListener implements SelectionListener {
             return;
         }
         ApplicationManager.getApplication().invokeLater(this::hideCurrentPopupImmediately);
+    }
+
+    private void hideCurrentPopupAndCancelRequests() {
+        alarms.values().forEach(Alarm::cancelAllRequests);
+        hideCurrentPopup();
     }
 
     private void hideCurrentPopupImmediately() {
