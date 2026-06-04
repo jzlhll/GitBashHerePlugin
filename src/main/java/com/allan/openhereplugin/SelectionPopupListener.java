@@ -3,6 +3,8 @@ package com.allan.openhereplugin;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
+import com.intellij.openapi.editor.event.EditorFactoryEvent;
+import com.intellij.openapi.editor.event.EditorFactoryListener;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.event.VisibleAreaEvent;
 import com.intellij.openapi.editor.event.VisibleAreaListener;
@@ -26,21 +28,20 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SelectionPopupListener implements SelectionListener {
 
     private static final SelectionPopupListener INSTANCE = new SelectionPopupListener();
-    private boolean initialized = false;
+    private volatile boolean initialized = false;
 
     // Cache the UI components so we only create them ONCE per IDE session, not per editor/selection.
-    private JPanel cachedPanel;
     private JBPopup currentPopup;
     private Editor currentPopupEditor;
-    private final Map<Editor, VisibleAreaListener> visibleAreaListeners = new HashMap<>();
-    private boolean windowFocusListenerRegistered = false;
-    private boolean activeWindowListenerRegistered = false;
+    private final Map<Editor, VisibleAreaListener> visibleAreaListeners = new ConcurrentHashMap<>();
+    private volatile boolean windowFocusListenerRegistered = false;
+    private volatile boolean activeWindowListenerRegistered = false;
 
     public static SelectionPopupListener getInstance() {
         return INSTANCE;
@@ -50,6 +51,27 @@ public class SelectionPopupListener implements SelectionListener {
         if (initialized) return;
         initialized = true;
         EditorFactory.getInstance().getEventMulticaster().addSelectionListener(this, ApplicationManager.getApplication());
+        // 监听 editor 释放事件，及时清理 alarms 与 visibleAreaListeners，避免长时间运行后内存泄漏与状态异常
+        EditorFactory.getInstance().addEditorFactoryListener(new EditorFactoryListener() {
+            @Override
+            public void editorReleased(@NotNull EditorFactoryEvent event) {
+                Editor released = event.getEditor();
+                Alarm alarm = alarms.remove(released);
+                if (alarm != null) {
+                    alarm.cancelAllRequests();
+                }
+                VisibleAreaListener listener = visibleAreaListeners.remove(released);
+                if (listener != null && !released.isDisposed()) {
+                    try {
+                        released.getScrollingModel().removeVisibleAreaListener(listener);
+                    } catch (Exception ignored) {
+                    }
+                }
+                if (currentPopupEditor == released) {
+                    hideCurrentPopup();
+                }
+            }
+        }, ApplicationManager.getApplication());
         registerWindowFocusListener();
         registerActiveWindowListener();
     }
@@ -67,7 +89,7 @@ public class SelectionPopupListener implements SelectionListener {
         );
     }
 
-    private final Map<Editor, Alarm> alarms = new HashMap<>();
+    private final Map<Editor, Alarm> alarms = new ConcurrentHashMap<>();
 
     @Override
     public void selectionChanged(@NotNull SelectionEvent e) {
@@ -96,7 +118,12 @@ public class SelectionPopupListener implements SelectionListener {
             return;
         }
 
-        Alarm alarm = alarms.computeIfAbsent(editor, e -> new Alarm(Alarm.ThreadToUse.POOLED_THREAD, com.intellij.openapi.project.ProjectManager.getInstance().getDefaultProject()));
+        Project project = editor.getProject();
+        if (project == null || project.isDisposed()) {
+            return;
+        }
+
+        Alarm alarm = alarms.computeIfAbsent(editor, e -> new Alarm(Alarm.ThreadToUse.POOLED_THREAD, project));
 
         alarm.cancelAllRequests();
 
@@ -137,49 +164,13 @@ public class SelectionPopupListener implements SelectionListener {
         }
 
         hideCurrentPopup();
-        
-        if (cachedPanel == null) {
-            // 全局只创建一次核心 UI
-            cachedPanel = new JPanel(new BorderLayout());
-            cachedPanel.setBackground(new JBColor(new Color(245, 245, 245), new Color(60, 63, 65)));
-            cachedPanel.setBorder(BorderFactory.createLineBorder(new JBColor(Color.LIGHT_GRAY, Color.DARK_GRAY), 1));
-            
-            JLabel label = new JLabel("<html><i><font color='#B19CD9'>GB</font><font color='#90EE90'>O</font><font color='#B19CD9'>H</font></i></html>");
-            label.setBorder(BorderFactory.createEmptyBorder(5, 6, 5, 6));
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            
-            cachedPanel.add(label, BorderLayout.CENTER);
 
-            // 点击事件：这里因为要复用 panel，我们在内部动态获取当前的焦点 editor
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (currentPopup != null && !currentPopup.isDisposed()) {
-                        currentPopup.cancel();
-                    }
-                    
-                    com.intellij.openapi.project.Project[] openProjects = com.intellij.openapi.project.ProjectManager.getInstance().getOpenProjects();
-                    if (openProjects.length == 0) return;
-                    
-                    // 获取当前处于活动状态的 editor
-                    Editor activeEditor = null;
-                    for (Project p : openProjects) {
-                        activeEditor = com.intellij.openapi.fileEditor.FileEditorManager.getInstance(p).getSelectedTextEditor();
-                        if (activeEditor != null) break;
-                    }
-                    
-                    if (activeEditor != null) {
-                        Project project = activeEditor.getProject();
-                        VirtualFile vf = FileDocumentManager.getInstance().getFile(activeEditor.getDocument());
-                        com.allan.openhereplugin.util.CopyCodeUtil.performCopy(project, activeEditor, vf);
-                    }
-                }
-            });
-        }
+        // 每次显示时新建 panel，避免跨 popup 复用组件导致的 parent/listener 链异常
+        JPanel panel = createPopupPanel(editor);
 
-        // 每次显示时，用缓存的 panel 创建一个新的 popup，因为 popup 销毁后不能复用
+        // 每次显示时，创建一个新的 popup，因为 popup 销毁后不能复用
         currentPopup = JBPopupFactory.getInstance()
-                .createComponentPopupBuilder(cachedPanel, null)
+                .createComponentPopupBuilder(panel, null)
                 .setCancelOnClickOutside(true)
                 .setFocusable(false)
                 .setRequestFocus(false)
@@ -191,6 +182,42 @@ public class SelectionPopupListener implements SelectionListener {
             return;
         }
         currentPopup.showInScreenCoordinates(editor.getContentComponent(), point);
+    }
+
+    private JPanel createPopupPanel(Editor capturedEditor) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new JBColor(new Color(245, 245, 245), new Color(60, 63, 65)));
+        panel.setBorder(BorderFactory.createLineBorder(new JBColor(Color.LIGHT_GRAY, Color.DARK_GRAY), 1));
+
+        JLabel label = new JLabel("<html><i><font color='#B19CD9'>GB</font><font color='#90EE90'>O</font><font color='#B19CD9'>H</font></i></html>");
+        label.setBorder(BorderFactory.createEmptyBorder(5, 6, 5, 6));
+        label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        panel.add(label, BorderLayout.CENTER);
+
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (currentPopup != null && !currentPopup.isDisposed()) {
+                    currentPopup.cancel();
+                }
+
+                // 直接使用 capture 的 editor，避免全局查找导致的不一致
+                if (capturedEditor.isDisposed()) {
+                    return;
+                }
+
+                Project project = capturedEditor.getProject();
+                if (project == null || project.isDisposed()) {
+                    return;
+                }
+
+                VirtualFile vf = FileDocumentManager.getInstance().getFile(capturedEditor.getDocument());
+                com.allan.openhereplugin.util.CopyCodeUtil.performCopy(project, capturedEditor, vf);
+            }
+        });
+
+        return panel;
     }
 
     private void ensureEditorListeners(Editor editor) {

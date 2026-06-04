@@ -103,7 +103,13 @@ public class CopyCodeUtil {
 
             Logger.sendNotification("copied success! \n" + toastText, project, NotificationType.INFORMATION);
         } catch (Exception e) {
-            // ignore
+            Logger.d("CopyCodeUtil performCopy error: " + e.getMessage());
+            if (project != null && !project.isDisposed()) {
+                try {
+                    Logger.sendNotification("copy failed: " + e.getMessage(), project, NotificationType.ERROR);
+                } catch (Exception ignored) {
+                }
+            }
         }
     }
 }
