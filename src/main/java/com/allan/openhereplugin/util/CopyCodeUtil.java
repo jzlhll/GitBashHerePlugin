@@ -46,8 +46,8 @@ public class CopyCodeUtil {
             
             boolean isSimpleCopy = com.allan.openhereplugin.config.GitOpenHereSettings.getInstance().getState().isGBOHSimpleCopyChecked;
             if (isSimpleCopy) {
-                String fileName = vf != null ? vf.getName() : new java.io.File(path).getName();
-                String simpleCopyText = fileName + " " + (startLine == endLine ? "Line" + startLine : "Line" + startLine + "-Line" + endLine);
+                String fileName = vf.getName();
+                String simpleCopyText = fileName + " " + (startLine == endLine ? "Line" + startLine : "Line" + startLine + "-" + endLine);
                 CopyPasteManager.getInstance().setContents(new StringSelection(simpleCopyText));
                 Logger.sendNotification("copied success! \n" + simpleCopyText, project, NotificationType.INFORMATION);
                 return;
