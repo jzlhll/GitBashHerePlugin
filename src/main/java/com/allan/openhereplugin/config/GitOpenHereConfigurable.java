@@ -23,7 +23,6 @@ public class GitOpenHereConfigurable implements Configurable {
     private JCheckBox copyNameCheckBox;
     private JCheckBox copyNameNoExtensionCheckBox;
     private JCheckBox enableGBOHIconCheckBox;
-    private JCheckBox gbohSimpleCopyCheckBox;
     private JCheckBox windowCmdCheckBox;
     private JCheckBox windowUsePowerShellCheckBox;
 
@@ -86,8 +85,6 @@ public class GitOpenHereConfigurable implements Configurable {
         //AI coding GBOH option
         addCheckboxRow("Enable floating GBOH icon for AI coding",
                 enableGBOHIconCheckBox = new JCheckBox(), false);
-        addCheckboxRow("Simple copy (Only copy filename and lines, e.g. LineX-LineY)",
-                gbohSimpleCopyCheckBox = new JCheckBox(), true, true);
         sperator();
 
         mainPanel.add(Box.createVerticalStrut(12));
@@ -124,7 +121,6 @@ public class GitOpenHereConfigurable implements Configurable {
                // warpTabCheckBox.isSelected() != state.isWarpTabChecked ||
                 copyNameNoExtensionCheckBox.isSelected() != state.isCopyNameNoExChecked ||
                 enableGBOHIconCheckBox.isSelected() != state.isGBOHFloatingIconEnabled ||
-                gbohSimpleCopyCheckBox.isSelected() != state.isGBOHSimpleCopyChecked ||
                 !isWindowCmdSame ||
                 copyNameCheckBox.isSelected() != state.isCopyNameChecked ||
                 type != state.gitToolType;
@@ -157,7 +153,6 @@ public class GitOpenHereConfigurable implements Configurable {
       //  state.isWarpTabChecked = warpTabCheckBox.isSelected();
         state.isCopyNameNoExChecked = copyNameNoExtensionCheckBox.isSelected();
         state.isGBOHFloatingIconEnabled = enableGBOHIconCheckBox.isSelected();
-        state.isGBOHSimpleCopyChecked = gbohSimpleCopyCheckBox.isSelected();
         if (windowCmdCheckBox != null && windowUsePowerShellCheckBox != null) {
             int windowCmdType;
             if (windowCmdCheckBox.isSelected()) {
@@ -197,7 +192,6 @@ public class GitOpenHereConfigurable implements Configurable {
         copyNameCheckBox.setSelected(state.isCopyNameChecked);
         copyNameNoExtensionCheckBox.setSelected(state.isCopyNameNoExChecked);
         enableGBOHIconCheckBox.setSelected(state.isGBOHFloatingIconEnabled);
-        gbohSimpleCopyCheckBox.setSelected(state.isGBOHSimpleCopyChecked);
         if(windowCmdCheckBox != null) windowCmdCheckBox.setSelected(state.windowCmdType > 0);
         if(windowUsePowerShellCheckBox != null) windowUsePowerShellCheckBox.setSelected(state.windowCmdType == GitOpenHereSettings.WINDOW_CMD_TYPE_POWER_CMD);
 
