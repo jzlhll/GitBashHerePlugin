@@ -21,6 +21,7 @@ public class CopyCodeUtil {
             int startLine = document.getLineNumber(selectionModel.getSelectionStart()) + 1;
             int endLine = document.getLineNumber(selectionModel.getSelectionEnd()) + 1;
 
+            // Diff 编辑器绑定的是实际文件时直接取其名称，不解析 Repository Diff 等界面标题。
             String fileName = vf.getName();
             String simpleCopyText = fileName + " " + (startLine == endLine ? "Line" + startLine : "Line" + startLine + "-" + endLine);
             CopyPasteManager.getInstance().setContents(new StringSelection(simpleCopyText));

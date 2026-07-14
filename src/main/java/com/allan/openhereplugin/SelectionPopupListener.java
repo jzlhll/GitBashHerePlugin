@@ -3,6 +3,7 @@ package com.allan.openhereplugin;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
+import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.event.EditorFactoryEvent;
 import com.intellij.openapi.editor.event.EditorFactoryListener;
 import com.intellij.openapi.editor.SelectionModel;
@@ -98,13 +99,12 @@ public class SelectionPopupListener implements SelectionListener {
             return;
         }
         
-        // 过滤掉非代码主编辑器的弹窗（例如：搜索框、终端、日志控制台、Diff 视图等）
+        // 过滤掉单行输入框，保留可绑定实际文件的 Diff 编辑器。
         if (editor.isOneLineMode()) {
             return;
         }
         
-        VirtualFile vf = FileDocumentManager.getInstance().getFile(editor.getDocument());
-        if (vf == null || !vf.isInLocalFileSystem()) {
+        if (getEditorFile(editor) == null) {
             return;
         }
 
@@ -212,12 +212,20 @@ public class SelectionPopupListener implements SelectionListener {
                     return;
                 }
 
-                VirtualFile vf = FileDocumentManager.getInstance().getFile(capturedEditor.getDocument());
+                VirtualFile vf = getEditorFile(capturedEditor);
                 com.allan.openhereplugin.util.CopyCodeUtil.performCopy(project, capturedEditor, vf);
             }
         });
 
         return panel;
+    }
+
+    private VirtualFile getEditorFile(Editor editor) {
+        VirtualFile file = FileDocumentManager.getInstance().getFile(editor.getDocument());
+        if (file == null && editor instanceof EditorEx) {
+            file = ((EditorEx) editor).getVirtualFile();
+        }
+        return file;
     }
 
     private void ensureEditorListeners(Editor editor) {
