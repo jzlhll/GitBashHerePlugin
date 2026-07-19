@@ -14,31 +14,31 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    For developers who prefer to terminal over built-in Git tools in IDEA.<br/><br/>
+    Built for developers who feel more at home in a real terminal than in another IDE Git dialog.<br/><br/>
 
-    <b>Features:</b>
-    <b>• AI Programming Friendly!</b> <br/>
-    Select code to reveal the floating <i><font color='#B19CD9'>GB</font><font color='#90EE90'>O</font><font color='#B19CD9'>H</font></i>(GitBashOpenHere) icon, <br/>
-    click to copy, and paste into other IDEs like Cursor or Codex! <br/>
-    (Android engineers will understand the pain of switching IDEs). <br/>
-    You can turn it off in Settings, as shown in the picture.<br/>
-    • Cross-platform support for Windows/macOS!<br/>
-    • Customizable paths & hidden menu in Settings → Other Settings.<br/>
-    • Support: 'warp' new tab! <br/>
-    • Direct directory opening in cmd/PowerShell on Windows.<br/>
+    <b>One right-click. The correct repository. The terminal and command you actually want.</b><br/>
+    GitBashOpenHere connects your project, the nearest Git root, and your favorite terminal without making you hunt for paths or type another long <i>cd</i> command.<br/><br/>
+
+    <b>What it can do:</b><br/>
+    • Open the current project, directory, or file location in Git Bash, macOS Terminal, or a new Warp tab.<br/>
+    • Run <b>git status</b>, <b>git diff</b>, <b>git log</b>, or <b>git push</b> from the nearest Git root while keeping the selected file context.<br/>
+    • Open the exact directory in Windows CMD or PowerShell when you do not want to jump to the Git root.<br/>
+    • Copy a file name, copy it without the extension, or instantly reveal the current project path.<br/>
+    • Work across Windows and macOS, with a custom git-bash.exe path when auto-detection is not enough.<br/>
+    • Keep the menu clean by hiding actions you do not use in Settings → Other Settings.<br/>
     <br/>
-    <b>Usage</b>, Right-click any: <br/>
-    • Project/directory/file <br/>
-    • in editor <br/>
-    • in editor tab<br/>
-    • hide action that you needn't in Settings<br/>
-
-    Select <b>Git Here:</b> at bottom, <br/>
-    opens in Git Bash/Terminal/Warp.  <br/>
-
-    <b>Windows Tip:</b> Can't find git-bash.exe? Custom path in Settings. <br/>
-
-    Enjoy it! <br/>
+    <b>Built for AI-assisted coding:</b><br/>
+    Select code and the floating <i><font color='#B19CD9'>GB</font><font color='#90EE90'>O</font><font color='#B19CD9'>H</font></i> badge appears.<br/>
+    One click copies the file name and exact line range, ready to paste into Cursor, Codex, or your next AI conversation.<br/>
+    Less context switching, less explaining, more building. You can enable or disable the badge in Settings.<br/>
+    <br/>
+    <b>How to use it:</b><br/>
+    Right-click a project, directory, file, editor, or editor tab, then open <b>Git Here:</b> and choose your action.<br/>
+    That is it. The plugin figures out the useful path and gets out of your way.<br/>
+    <br/>
+    <b>Windows tip:</b> If git-bash.exe is not detected automatically, set its path in Settings.<br/>
+    <br/>
+    Your terminal workflow, now wired straight into the IDE.<br/>
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_3ab9abf4-7134-43fa-b63f-3b3eeff383ac" alt="1">
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_1dfdf244-b8d4-4111-96d9-8ef023a662ea" alt="2">
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_a029e018-c693-48e3-a1e5-cc352e9405cf" alt="3">
@@ -46,31 +46,31 @@
     <img src="https://plugins.jetbrains.com/files/21517/screenshot_09c45eb8-2eb7-473f-aa2c-84ca6e10abe2" alt="5">
     <br/><br/>
     <b>--- 中文说明 ---</b><br/><br/>
-    为更喜欢使用终端而不是IDEA内置Git工具的开发者提供。<br/><br/>
+    写给那些真正把终端当主场的开发者：IDE 里的 Git 面板可以用，但命令行才是自己人。<br/><br/>
 
-    <b>功能特性：</b><br/>
-    <b>• AI编程的好帮手！</b><br/>
-    您可以通过选中代码过会儿弹出的小图标<i><font color='#B19CD9'>GB</font><font color='#90EE90'>O</font><font color='#B19CD9'>H</font></i>(GitBashOpenHere)，<br/>
-    点击后拷贝到其他的IDE，如Cursor, Codex等的对话中去，<br/>
-    方便您来回切IDE（尤其是Android工程师会懂我的）。<br/>
-    设置菜单追加了菜单，您可以选择关闭，如图所示。<br/>
-    • 支持Windows/macOS跨平台！<br/>
-    • 支持在 Settings → Other Settings 中自定义路径和隐藏不需要的菜单。<br/>
-    • 支持：在 'warp' 中打开新标签页！<br/>
-    • Windows下支持直接在cmd/PowerShell中打开目录。<br/>
+    <b>一次右键，自动找对仓库、打开对的终端、执行对的命令。</b><br/>
+    GitBashOpenHere 直接把项目、最近的 Git 根目录和你顺手的终端接到一起。不用翻路径，不用反复 <i>cd</i>，也不用在几个窗口之间来回横跳。<br/><br/>
+
+    <b>现在能干什么：</b><br/>
+    • 在项目、目录、文件、编辑器或标签页上右键，直接打开 Git Bash、macOS Terminal 或 Warp 新标签。<br/>
+    • 自动定位最近的 Git 根目录，带着当前文件上下文执行 <b>git status</b>、<b>git diff</b>、<b>git log</b> 和 <b>git push</b>。<br/>
+    • Windows 下可以绕过 Git 根目录，直接在当前文件所在目录打开 CMD 或 PowerShell。<br/>
+    • 一键复制文件名、复制不带扩展名的文件名，还能直接查看当前项目路径。<br/>
+    • 支持 Windows/macOS；Windows 下找不到 git-bash.exe 也不慌，手动指定一下就行。<br/>
+    • 菜单也不用将就，可以在 Settings → Other Settings 里隐藏你用不上的功能。<br/>
     <br/>
-    <b>使用说明</b>，右键点击任何：<br/>
-    • 项目/目录/文件<br/>
-    • 编辑器内部<br/>
-    • 编辑器标签页<br/>
-    • 可以在设置中隐藏不需要的菜单项<br/>
+    <b>AI 编程这块，也给你接上了：</b><br/>
+    选中代码，稍等一下就会出现 <i><font color='#B19CD9'>GB</font><font color='#90EE90'>O</font><font color='#B19CD9'>H</font></i> 浮动入口。<br/>
+    点一下就能复制文件名和精确行号范围，直接丢给 Cursor、Codex 或其他 AI 对话。<br/>
+    少切窗口，少解释上下文，把时间留给真正的开发。这个浮动入口也可以随时在设置里开关。<br/>
     <br/>
-    在底部选择 <b>Git Here:</b>，<br/>
-    将在 Git Bash/Terminal/Warp 中打开。<br/>
+    <b>怎么用：</b><br/>
+    在项目、目录、文件、编辑器或编辑器标签页上右键，找到 <b>Git Here:</b>，然后选你要做的事。<br/>
+    就这么简单：你负责写代码，它负责把路找对。<br/>
     <br/>
-    <b>Windows 提示：</b> 找不到 git-bash.exe？可以在设置中自定义路径。<br/>
+    <b>Windows 提示：</b>如果没有自动识别到 git-bash.exe，去设置里指定路径即可。<br/>
     <br/>
-    Enjoy it! <br/>
+    你的终端工作流，现在直接长在 IDE 里了。<br/>
     ]]></description>
 
     <!-- Product and plugin compatibility requirements.
@@ -109,6 +109,7 @@
             <action id="allan.githere_list_project_window_cmd" class="com.allan.openhereplugin.WindowCmdAction" text = "Window cmd"/>
 
             <action id="allan.githere_list_project_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
+            <action id="allan.githere_list_project_show_project_path" class="com.allan.openhereplugin.ShowProjectPathAction" text = "Show Project Path"/>
             <action id="allan.githere_list_project_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
         </group>
 
