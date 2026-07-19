@@ -5,12 +5,16 @@ import com.allan.openhereplugin.util.Logger;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.ex.EditorEx;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.ide.CopyPasteManager;
+import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.datatransfer.StringSelection;
-import java.io.File;
 
 public class GitBashCopyNameAction extends AnAction {
 
@@ -21,13 +25,19 @@ public class GitBashCopyNameAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
         try {
-            var vf = event.getDataContext().getData(PlatformDataKeys.VIRTUAL_FILE);
+            Editor editor = event.getData(CommonDataKeys.EDITOR);
+            VirtualFile vf = editor == null ? null : FileDocumentManager.getInstance().getFile(editor.getDocument());
+            if (vf == null && editor instanceof EditorEx) {
+                vf = ((EditorEx) editor).getVirtualFile();
+            }
+            if (vf == null) {
+                vf = event.getDataContext().getData(PlatformDataKeys.VIRTUAL_FILE);
+            }
             if (vf == null) {
                 return;
             }
-            var thisFile = vf.toString().replace("file://", "");
 
-            var name = new File(thisFile).getName();
+            var name = vf.getName();
             name = changeName(name);
             CopyPasteManager.getInstance().setContents(new StringSelection(name));
 
