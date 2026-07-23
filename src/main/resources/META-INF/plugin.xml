@@ -109,7 +109,6 @@
             <action id="allan.githere_list_project_window_cmd" class="com.allan.openhereplugin.WindowCmdAction" text = "Window cmd"/>
 
             <action id="allan.githere_list_project_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
-            <action id="allan.githere_list_project_show_project_path" class="com.allan.openhereplugin.ShowProjectPathAction" text = "Show Project Path"/>
             <action id="allan.githere_list_project_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
         </group>
 

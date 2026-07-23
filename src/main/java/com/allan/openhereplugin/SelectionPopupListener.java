@@ -3,7 +3,6 @@ package com.allan.openhereplugin;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.event.EditorFactoryEvent;
 import com.intellij.openapi.editor.event.EditorFactoryListener;
 import com.intellij.openapi.editor.SelectionModel;
@@ -11,13 +10,11 @@ import com.intellij.openapi.editor.event.VisibleAreaEvent;
 import com.intellij.openapi.editor.event.VisibleAreaListener;
 import com.intellij.openapi.editor.event.SelectionEvent;
 import com.intellij.openapi.editor.event.SelectionListener;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileEditorManagerEvent;
 import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.JBColor;
 import com.intellij.util.Alarm;
 import org.jetbrains.annotations.NotNull;
@@ -104,7 +101,7 @@ public class SelectionPopupListener implements SelectionListener {
             return;
         }
         
-        if (getEditorFile(editor) == null) {
+        if (com.allan.openhereplugin.util.CopyCodeUtil.getFileName(editor) == null) {
             return;
         }
 
@@ -212,20 +209,11 @@ public class SelectionPopupListener implements SelectionListener {
                     return;
                 }
 
-                VirtualFile vf = getEditorFile(capturedEditor);
-                com.allan.openhereplugin.util.CopyCodeUtil.performCopy(project, capturedEditor, vf);
+                com.allan.openhereplugin.util.CopyCodeUtil.performCopy(project, capturedEditor);
             }
         });
 
         return panel;
-    }
-
-    private VirtualFile getEditorFile(Editor editor) {
-        VirtualFile file = FileDocumentManager.getInstance().getFile(editor.getDocument());
-        if (file == null && editor instanceof EditorEx) {
-            file = ((EditorEx) editor).getVirtualFile();
-        }
-        return file;
     }
 
     private void ensureEditorListeners(Editor editor) {
