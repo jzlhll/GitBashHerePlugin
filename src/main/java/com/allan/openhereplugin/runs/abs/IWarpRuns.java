@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 
 public interface IWarpRuns extends IRuns{
     void runTab(String gitPath);
-    //void runWindow(String gitPath);
 
     @Nullable
     static IWarpRuns create() {

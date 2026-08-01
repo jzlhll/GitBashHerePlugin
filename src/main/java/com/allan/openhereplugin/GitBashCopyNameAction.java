@@ -29,16 +29,21 @@ public class GitBashCopyNameAction extends AnAction {
         return name;
     }
 
+    protected String getCopyText(@NotNull AnActionEvent event, String name, VirtualFile file, Editor editor, DiffRequest diffRequest) {
+        return changeName(name);
+    }
+
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
         try {
             Editor editor = event.getData(CommonDataKeys.EDITOR);
             String name = editor == null ? null : CopyCodeUtil.getFileName(editor);
+            VirtualFile virtualFile = getVirtualFile(event, editor);
             DiffRequest diffRequest = event.getData(DiffDataKeys.DIFF_REQUEST);
             Logger.d("[GBOH_DIFF_TRACE] copy name action: editor=" + (editor == null ? "null" : editor.getClass().getSimpleName())
                     + ", eventDiffRequest=" + (diffRequest == null ? "null" : diffRequest.getClass().getSimpleName())
                     + ", resolvedFileName=" + name);
-            if (name == null && diffRequest instanceof ContentDiffRequest) {
+            if (diffRequest instanceof ContentDiffRequest) {
                 if (editor == null) {
                     Logger.d("[GBOH_DIFF_TRACE] copy name action result: fileName=null, reason=missingEditor");
                     return;
@@ -46,12 +51,13 @@ public class GitBashCopyNameAction extends AnAction {
                 String fallbackFileName = null;
                 for (DiffContent content : ((ContentDiffRequest) diffRequest).getContents()) {
                     if (content instanceof DocumentContent) {
+                        VirtualFile file = ((DocumentContent) content).getHighlightFile();
                         name = content.getUserData(DiffUserDataKeysEx.FILE_NAME);
                         if (name == null) {
-                            VirtualFile file = ((DocumentContent) content).getHighlightFile();
                             name = file == null ? null : file.getName();
                         }
                         if (((DocumentContent) content).getDocument() == editor.getDocument()) {
+                            virtualFile = file;
                             break;
                         }
                         if (fallbackFileName == null) {
@@ -69,29 +75,22 @@ public class GitBashCopyNameAction extends AnAction {
                 }
             }
             if (name == null) {
-                VirtualFile vf = editor == null ? null : FileDocumentManager.getInstance().getFile(editor.getDocument());
-                if (vf == null && editor instanceof EditorEx) {
-                    vf = ((EditorEx) editor).getVirtualFile();
-                }
-                if (vf == null) {
-                    vf = event.getDataContext().getData(PlatformDataKeys.VIRTUAL_FILE);
-                }
-                if (vf == null) {
+                if (virtualFile == null) {
                     Logger.d("[GBOH_DIFF_TRACE] copy name action result: fileName=null, reason=missingVirtualFile");
                     return;
                 }
-                name = CopyCodeUtil.getPreviewDiffFileName(vf);
+                name = CopyCodeUtil.getPreviewDiffFileName(virtualFile);
                 if (name != null) {
                     Logger.d("[GBOH_DIFF_TRACE] copy name action result: source=previewDiffProducer, fileName=" + name);
                 } else {
-                    name = vf.getName();
+                    name = virtualFile.getName();
                 }
                 if ("TabPreviewDiffVirtualFile".equals(name)) {
                     Logger.d("[GBOH_DIFF_TRACE] copy name action result: fileName=null, reason=previewVirtualFile");
                     return;
                 }
             }
-            name = changeName(name);
+            name = getCopyText(event, name, virtualFile, editor, diffRequest);
             Logger.d("[GBOH_DIFF_TRACE] copy name action result: fileName=" + name);
             CopyPasteManager.getInstance().setContents(new StringSelection(name));
 
@@ -110,5 +109,26 @@ public class GitBashCopyNameAction extends AnAction {
 
     protected boolean isNeedShow() {
         return !GitOpenHereSettings.getInstance().getState().isCopyNameChecked;
+    }
+
+    private VirtualFile getVirtualFile(@NotNull AnActionEvent event, Editor editor) {
+        VirtualFile file = editor == null ? null : FileDocumentManager.getInstance().getFile(editor.getDocument());
+        if (file == null && editor instanceof EditorEx) {
+            file = ((EditorEx) editor).getVirtualFile();
+        }
+        return file == null ? event.getDataContext().getData(PlatformDataKeys.VIRTUAL_FILE) : file;
+    }
+
+    public static class FullName extends GitBashCopyNameAction {
+        @Override
+        protected String getCopyText(@NotNull AnActionEvent event, String name, VirtualFile file, Editor editor, DiffRequest diffRequest) {
+            String filePath = CopyCodeUtil.getFilePath(event, diffRequest, editor, file);
+            return filePath == null ? name : filePath;
+        }
+
+        @Override
+        protected boolean isNeedShow() {
+            return !GitOpenHereSettings.getInstance().getState().isCopyFullNameChecked;
+        }
     }
 }

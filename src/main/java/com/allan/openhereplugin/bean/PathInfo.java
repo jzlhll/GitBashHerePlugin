@@ -3,8 +3,6 @@ package com.allan.openhereplugin.bean;
 import java.util.Locale;
 
 public class PathInfo extends NoGitPathInfo {
-    public static final PathInfo EMPTY = new PathInfo();
-
     /**
      * find upper gitPath
      */

@@ -32,15 +32,4 @@ public class WarpWindowsRuns implements IWarpRuns {
         String cmd = String.format("start \"\" \"warp://action/new_tab?path=%s\"", gitPath);
         runCommand(cmd);
     }
-
-//    @Override
-//    public void runWindow(String gitPath) {
-//        if (gitPath == null || gitPath.length() <= 2) {
-//            return;
-//        }
-//
-//        //cmd /c start "" "warp://action/new_tab?path=%CD%"
-//        String cmd = String.format("start \"\" \"warp://action/new_window?path=%s\"", gitPath);
-//        runCommand(cmd);
-//    }
 }

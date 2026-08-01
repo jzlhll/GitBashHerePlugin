@@ -5,30 +5,13 @@ import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 
 public class Logger {
-    private static final StringBuilder logSb = new StringBuilder();
-
-    public static void cacheAdd(String s) {
-        d(s);
-        logSb.append("allan ").append(s).append("\n");
-    }
-
-    public static void cacheClear() {
-        logSb.setLength(0);
-    }
-
-    public static String cacheFetch() {
-        return logSb.toString();
-    }
-
-    public static String cacheFetchAndClear() {
-        String s = logSb.toString();
-        cacheClear();
-        return s;
-    }
+    private static final boolean DEBUG_ENABLED = false;
 
     private static final com.intellij.openapi.diagnostic.Logger LOG = com.intellij.openapi.diagnostic.Logger.getInstance(Logger.class);
     public static void d(String s) {
-        LOG.warn("allan " + s);
+        if (DEBUG_ENABLED) {
+            LOG.warn("allan " + s);
+        }
     }
 
     public static void sendNotification(String message, AnActionEvent event, NotificationType notificationType) {

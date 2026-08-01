@@ -209,7 +209,13 @@ public class SelectionPopupListener implements SelectionListener {
                     return;
                 }
 
-                com.allan.openhereplugin.util.CopyCodeUtil.performCopy(project, capturedEditor);
+                boolean copyFullPath = com.allan.openhereplugin.config.GitOpenHereSettings.getInstance()
+                        .getState().isGBOHCopyFullPathEnabled;
+                if (copyFullPath) {
+                    com.allan.openhereplugin.util.CopyCodeUtil.performCopy(project, capturedEditor, true);
+                } else {
+                    com.allan.openhereplugin.util.CopyCodeUtil.performCopy(project, capturedEditor);
+                }
             }
         });
 

@@ -23,7 +23,7 @@
     • Open the current project, directory, or file location in Git Bash, macOS Terminal, or a new Warp tab.<br/>
     • Run <b>git status</b>, <b>git diff</b>, <b>git log</b>, or <b>git push</b> from the nearest Git root while keeping the selected file context.<br/>
     • Open the exact directory in Windows CMD or PowerShell when you do not want to jump to the Git root.<br/>
-    • Copy a file name, copy it without the extension, or instantly reveal the current project path.<br/>
+    • Copy a file name, its file path, or the name without the extension.<br/>
     • Work across Windows and macOS, with a custom git-bash.exe path when auto-detection is not enough.<br/>
     • Keep the menu clean by hiding actions you do not use in Settings → Other Settings.<br/>
     <br/>
@@ -55,7 +55,7 @@
     • 在项目、目录、文件、编辑器或标签页上右键，直接打开 Git Bash、macOS Terminal 或 Warp 新标签。<br/>
     • 自动定位最近的 Git 根目录，带着当前文件上下文执行 <b>git status</b>、<b>git diff</b>、<b>git log</b> 和 <b>git push</b>。<br/>
     • Windows 下可以绕过 Git 根目录，直接在当前文件所在目录打开 CMD 或 PowerShell。<br/>
-    • 一键复制文件名、复制不带扩展名的文件名，还能直接查看当前项目路径。<br/>
+    • 一键复制文件名、文件路径或不带扩展名的文件名。<br/>
     • 支持 Windows/macOS；Windows 下找不到 git-bash.exe 也不慌，手动指定一下就行。<br/>
     • 菜单也不用将就，可以在 Settings → Other Settings 里隐藏你用不上的功能。<br/>
     <br/>
@@ -110,6 +110,7 @@
 
             <action id="allan.githere_list_project_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
             <action id="allan.githere_list_project_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
+            <action id="allan.githere_list_project_copyfullname" class="com.allan.openhereplugin.GitBashCopyNameAction$FullName" text = "Copy File Path"/>
         </group>
 
         <group id="com.allan.githere_list_editor" text="Git Here:" popup="true">
@@ -124,6 +125,7 @@
 
             <action id="allan.githere_list_editor_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
             <action id="allan.githere_list_editor_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
+            <action id="allan.githere_list_editor_copyfullname" class="com.allan.openhereplugin.GitBashCopyNameAction$FullName" text = "Copy File Path"/>
         </group>
 
         <group id="com.allan.githere_list_editor_tab" text="Git Here:" popup="true">
@@ -133,6 +135,7 @@
             <action id="allan.githere_list_ed_tab_window_cmd" class="com.allan.openhereplugin.WindowCmdAction" text = "Window cmd"/>
             <action id="allan.githere_list_ed_tab_copyname" class="com.allan.openhereplugin.GitBashCopyNameAction" text = "Copy Name"/>
             <action id="allan.githere_list_ed_tab_copyname_no_extension" class="com.allan.openhereplugin.GitBashCopyNameNoExtensionAction" text = "Copy Name no extension"/>
+            <action id="allan.githere_list_ed_tab_copyfullname" class="com.allan.openhereplugin.GitBashCopyNameAction$FullName" text = "Copy File Path"/>
         </group>
     </actions>
 </idea-plugin>

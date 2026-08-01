@@ -130,7 +130,7 @@ public class GitBashWindowsRuns implements IGitBashRuns, IWindowGitBashRuns {
 
     @Override
     public void runGitDiff(String gitPath, String relativeFile) {
-        runGitBashCmds(gitPath, new String[]{"git diff " + relativeFile});
+        runGitBashCommand(gitPath, "git diff " + relativeFile);
     }
 
     @Override
@@ -141,38 +141,31 @@ public class GitBashWindowsRuns implements IGitBashRuns, IWindowGitBashRuns {
         } else {
             s = "git status " + relativeDir;
         }
-        runGitBashCmds(gitPath, new String[]{s});
+        runGitBashCommand(gitPath, s);
     }
 
     @Override
     public void runGitPush(String gitPath) {
-        runGitBashCmds(gitPath, new String[]{"git push"});
+        runGitBashCommand(gitPath, "git push");
     }
 
     @Override
     public void runGitLog(String gitPath, String relativeFile) {
-        runGitBashCmds(gitPath, new String[]{"git log " + relativeFile});
+        runGitBashCommand(gitPath, "git log " + relativeFile);
     }
 
-    private void runGitBashCmds(String gitPath, String[] extraCmds) {
+    private void runGitBashCommand(String gitPath, String command) {
         if (gitPath == null || gitPath.isEmpty()) {
             return;
         }
         var disk = gitPath.substring(0, 2);
-
-        StringBuilder gitCmds = new StringBuilder();
-
-        for (String c : extraCmds) {
-            gitCmds.append(c).append(" && ");
-        }
-        gitCmds.append("/usr/bin/bash --login -i");
 
         //start "" "%ProgramFiles%\Git\git-bash.exe" -c "echo 1 && echo 2 && /usr/bin/bash --login -i"
         String cmd = String.format("%s && cd %s && start \"\" %s -c %s",
                 disk,
                 gitPath,
                 kot(gitToolPathAfterAsset()),
-                kot(gitCmds.toString()));
+                kot(command + " && /usr/bin/bash --login -i"));
         runCommand(cmd);
     }
 }
