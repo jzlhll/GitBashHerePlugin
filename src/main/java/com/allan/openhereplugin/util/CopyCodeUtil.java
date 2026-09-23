@@ -27,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.datatransfer.StringSelection;
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -136,7 +137,19 @@ public class CopyCodeUtil {
         if (isPreviewDiffFile(file)) {
             return null;
         }
-        return shortenHomePath(file.getPath());
+        return file == null ? null : shortenHomePath(file.getPath());
+    }
+
+    @Nullable
+    public static File getLocalFile(@Nullable String path) {
+        if (path == null || path.isBlank()) {
+            return null;
+        }
+        if (path.equals("~") || path.startsWith("~/") || path.startsWith("~\\")) {
+            path = System.getProperty("user.home") + path.substring(1);
+        }
+        File file = new File(path);
+        return file.isAbsolute() ? file : null;
     }
 
     @Nullable

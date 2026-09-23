@@ -24,6 +24,8 @@ public class GitOpenHereConfigurable implements Configurable {
     private JCheckBox copyNameCheckBox;
     private JCheckBox copyFullNameCheckBox;
     private JCheckBox copyNameNoExtensionCheckBox;
+    private JCheckBox repositoryNameCheckBox;
+    private JCheckBox diffOpenInFileManagerCheckBox;
     private JCheckBox enableGBOHIconCheckBox;
     private JCheckBox gbohCopyFullPathCheckBox;
     private JCheckBox windowCmdCheckBox;
@@ -82,6 +84,13 @@ public class GitOpenHereConfigurable implements Configurable {
                 copyNameNoExtensionCheckBox = new JCheckBox(), true);
         addCheckboxRow("Hide options: copy file path",
                 copyFullNameCheckBox = new JCheckBox(), true);
+        addCheckboxRow("Show Git root directory name in main toolbar",
+                repositoryNameCheckBox = new JCheckBox(), true);
+        String system = Common.supportSystem();
+        String fileManager = Common.SYSTEM_MAC.equals(system) ? "Finder"
+                : Common.SYSTEM_WINDOWS.equals(system) ? "File Explorer" : "File Manager";
+        addCheckboxRow("Show ‘Open in " + fileManager + "’ in Commit and Repository Diff menus",
+                diffOpenInFileManagerCheckBox = new JCheckBox(), true);
         
         addSeparator();
 
@@ -112,6 +121,8 @@ public class GitOpenHereConfigurable implements Configurable {
                // warpTabCheckBox.isSelected() != state.isWarpTabChecked ||
                 copyNameNoExtensionCheckBox.isSelected() != state.isCopyNameNoExChecked ||
                 copyFullNameCheckBox.isSelected() != state.isCopyFullNameChecked ||
+                repositoryNameCheckBox.isSelected() != state.isRepositoryNameEnabled ||
+                diffOpenInFileManagerCheckBox.isSelected() != state.isDiffOpenInFileManagerEnabled ||
                 enableGBOHIconCheckBox.isSelected() != state.isGBOHFloatingIconEnabled ||
                 gbohCopyFullPathCheckBox.isSelected() != state.isGBOHCopyFullPathEnabled ||
                 !isWindowCmdSame ||
@@ -135,6 +146,8 @@ public class GitOpenHereConfigurable implements Configurable {
       //  state.isWarpTabChecked = warpTabCheckBox.isSelected();
         state.isCopyNameNoExChecked = copyNameNoExtensionCheckBox.isSelected();
         state.isCopyFullNameChecked = copyFullNameCheckBox.isSelected();
+        state.isRepositoryNameEnabled = repositoryNameCheckBox.isSelected();
+        state.isDiffOpenInFileManagerEnabled = diffOpenInFileManagerCheckBox.isSelected();
         state.isGBOHFloatingIconEnabled = enableGBOHIconCheckBox.isSelected();
         state.isGBOHCopyFullPathEnabled = gbohCopyFullPathCheckBox.isSelected();
         if (windowCmdCheckBox != null && windowUsePowerShellCheckBox != null) {
@@ -157,6 +170,8 @@ public class GitOpenHereConfigurable implements Configurable {
         copyNameCheckBox.setSelected(state.isCopyNameChecked);
         copyFullNameCheckBox.setSelected(state.isCopyFullNameChecked);
         copyNameNoExtensionCheckBox.setSelected(state.isCopyNameNoExChecked);
+        repositoryNameCheckBox.setSelected(state.isRepositoryNameEnabled);
+        diffOpenInFileManagerCheckBox.setSelected(state.isDiffOpenInFileManagerEnabled);
         enableGBOHIconCheckBox.setSelected(state.isGBOHFloatingIconEnabled);
         gbohCopyFullPathCheckBox.setSelected(state.isGBOHCopyFullPathEnabled);
         if(windowCmdCheckBox != null) windowCmdCheckBox.setSelected(state.windowCmdType > 0);
