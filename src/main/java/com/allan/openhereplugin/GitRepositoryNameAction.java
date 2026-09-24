@@ -4,10 +4,10 @@ import com.allan.openhereplugin.config.GitOpenHereSettings;
 import com.allan.openhereplugin.util.CopyCodeUtil;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.actions.RevealFileAction;
+import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
-import com.intellij.openapi.actionSystem.ex.ActionUtil;
 import com.intellij.openapi.actionSystem.ex.CustomComponentAction;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -63,7 +63,7 @@ public class GitRepositoryNameAction extends DumbAwareAction implements CustomCo
         button.setBorder(JBUI.Borders.empty(2, 4));
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
-        button.addActionListener(e -> ActionUtil.invokeAction(this, button, place, null, null));
+        button.addActionListener(e -> ActionManager.getInstance().tryToExecute(this, null, button, place, true));
         updateCustomComponent(button, presentation);
         return button;
     }
