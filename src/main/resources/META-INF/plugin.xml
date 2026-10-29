@@ -93,7 +93,11 @@
         <!-- 注册持久化组件 -->
         <applicationService
                 serviceImplementation="com.allan.openhereplugin.config.GitOpenHereSettings"/>
+        <!-- 按运行时平台能力注册 Marketplace 上报，兼容 2022.1 起的 IDE。 -->
+        <applicationService
+                serviceImplementation="com.allan.openhereplugin.MarketplaceErrorReportingService"/>
                 
+        <postStartupActivity implementation="com.allan.openhereplugin.MarketplaceErrorReportingInitializer"/>
         <postStartupActivity implementation="com.allan.openhereplugin.SelectionPopupInitializer"/>
         <postStartupActivity implementation="com.allan.openhereplugin.GitRepositoryToolbarInitializer"/>
     </extensions>
